@@ -69,6 +69,8 @@ TargetingView.prototype.enter = function() {
         text += this.gameState.cakes[i].fillings.join(' - ');
         this.menuOptions.push(text);
     }
+
+    //this.gameState.cakes[0].fillings=['Mantis shrimp', "Booze", "Bullets"];
 };
 
 //Cake was a rather ok, jos ei oo mitään sanottavaa
@@ -121,6 +123,24 @@ TargetingView.prototype.addMoney = function(amount) {
 
 	} else {
 		this.gameState.balance += amount;
+	}
+}
+
+TargetingView.prototype.getThirdFilling = function(cake, conditions) {
+	var used = [0, 0];
+	for (var i = 0; i < conditions.length; i++) {
+		var filling = conditions[i];
+		var ok = false;
+		for (var f = 0; f < cake.fillings.length; f++) {
+			if (!ok) {
+				if (cake.fillings[f] == filling) ok = true;
+				used[i] = f;
+			}
+		}
+		if (ok == false) return false;
+	}
+	for (var f = 0; f < cake.fillings.length; f++) {
+		if (!contains(used, f)) return cake.fillings[f];
 	}
 }
 
@@ -194,13 +214,18 @@ TargetingView.prototype.exit = function() {
 				//console.log("BODY:"+body);
 				this.gameState.news.push(new Article(priority, country, "Caky News With a Generic Headline", body));
 			} else {
-				this.gameState.news.push(new Article(priority, country, matchingTriggers[selected].headline, matchingTriggers[selected].text));
+				var article = new Article(priority, country, matchingTriggers[selected].headline, matchingTriggers[selected].text);
 				this.addMoney(matchingTriggers[selected].profit);
+				if (matchingTriggers[selected].conditions.length == 2) {
+					article.thirdFilling = this.getThirdFilling(cake, matchingTriggers[selected].conditions);
+					console.log("ThirdFIlling: "+article.thirdFilling);
+				}
 				if (matchingTriggers[selected].damage === undefined) {
 
 				} else {
-						COUNTRIES[this.deliveries[i]].life -= matchingTriggers[selected].damage;
+					COUNTRIES[this.deliveries[i]].life -= matchingTriggers[selected].damage;
 				}
+				this.gameState.news.push(article);
 			}
 		}
 		//this.gameState.news.push(new Article(""+country+" received "+cake["fillings"][0]+" "+cake["fillings"][1]+" "+cake["fillings"][2]));
