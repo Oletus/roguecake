@@ -763,6 +763,16 @@ var changeView = function() {
     if (viewIdx === 0) {
         ++viewIdx;
     }
+    if (viewIdx == 2) {
+    	var stillAlive = 0;
+    	for (var i = 0; i < COUNTRIES.length; i++) {
+    		if (COUNTRIES[i].life > 0) stillAlive++;
+    	}
+    	if (stillAlive < 3) {
+    		this.gameState.news = [new Article(10, "", "Game Over", "In a shocking turn of events, [company name], the confectionery loved by many, was found guilty of several counts of genocide and was forced to seize all operations. The international crisis management task force is quick to point out that by pressing a button that says “New Game”, one might or might not be able to create a separate universe in which none of this happens and there’s more cakes. Or more mantis shrimps. You never know these days.")]
+    		viewIdx--; //Back to newspaper view!
+    	}
+    }
     views[viewIdx].enter();
 };
 
@@ -829,6 +839,7 @@ var initGame = function() {
              new CakeView(gameState),
              new TargetingView(gameState)];
     views[0].enter();
+    this.gameState = gameState;
 
     cwrap = document.createElement('div');
     cwrap.id = 'canvaswrap';

@@ -154,6 +154,7 @@ TargetingView.prototype.exit = function() {
 		var cake = this.gameState.cakes[i];
 		var country = COUNTRIES[this.deliveries[i]]["name"];
 		var countryShort = COUNTRIES[this.deliveries[i]]["shortName"];
+		//COUNTRIES[this.deliveries[i]].life -= 3;
 
 		var matchingTriggers = new Array();
 
@@ -284,6 +285,7 @@ TargetingView.prototype.space = function() {
         this.stateTime = 0;
         return;
     }
+    if (COUNTRIES[this.selectedPoint].life <= 0) return;
 	if (this.cameraStopped && this.state !== TargetingView.state.FINISH) {
 		console.log("deliveries " + this.deliveries + " - selected point " + this.selectedPoint);
         var removedDelivery = false;
