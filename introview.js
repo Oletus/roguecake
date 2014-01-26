@@ -68,11 +68,21 @@ logname.id = 'company_name';
 animw.appendChild(logname);
 var inputElement = document.createElement("input");
 inputElement.id = 'company_input';
-inputElement.placeholder = "Company?";
-inputElement.maxLength = 12;
+inputElement.placeholder = "Company name";
+inputElement.maxLength = 18;
+inputElement.autofocus = true;
 
 logname.appendChild(inputElement);
 
+var textElem = document.createElement("div");
+textElem.id = 'instructions';
+textElem.textContent = 'Use arrow keys and space to play!';
+animw.appendChild(textElem);
+
+textElem = document.createElement("div");
+textElem.id = 'credits';
+textElem.textContent = 'A GGJ2014 game by Annika Alhokankare, Olli Etuaho, Antti Havara, Katri Laine, Eero Lami, Sami Rämä and Pyry Takkunen';
+animw.appendChild(textElem);
 
 animw.appendChild(globeplace);
 logo.appendChild(logoimg);
