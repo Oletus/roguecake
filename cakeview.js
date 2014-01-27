@@ -1,4 +1,4 @@
-var CakeLayer = function(maxY, fillingColor, isCandle) {
+var CakeLayer = function(maxY, isCandle, fillingColor) {
     this.y = CakeView.SLOT_RECT.bottom + 60;
     this.maxY = maxY;
     this.down = false;
@@ -162,7 +162,7 @@ var shuffleArray = function(array) {
         array[i] = array[j];
         array[j] = temp;
     }
-}
+};
 
 CakeView.prototype.randomizeSlots = function() {
     this.slots = [];
@@ -208,9 +208,9 @@ CakeView.prototype.chooseCake = function(fillingIndex, createEffects) {
     //this.logCakes();
     if (createEffects) {
         var maxY = 540 - CakeView.CONVEYOR_HEIGHT - 5 - this.cakesLayers[this.currentCake].length * 17;
-        this.cakesLayers[this.currentCake].push(new CakeLayer(maxY, FILLING_COLORS[fillingIndex], false));
+        this.cakesLayers[this.currentCake].push(new CakeLayer(maxY, false, FILLING_COLORS[fillingIndex]));
         if (this.cakesLayers[this.currentCake].length === CakeView.FILLINGS_PER_CAKE) {
-            this.cakesLayers[this.currentCake].push(new CakeLayer(maxY - 22, FILLING_COLORS[fillingIndex], true))
+            this.cakesLayers[this.currentCake].push(new CakeLayer(maxY - 22, true));
         }
         this.particleSystem.groundY = maxY - 5;
         for (var i = 0; i < 30; ++i) {

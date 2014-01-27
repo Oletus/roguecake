@@ -23,9 +23,6 @@ var TargetingView = function(gameState) {
     for (var i = 0; i < COUNTRIES.length; ++i) {
         this.flags[COUNTRIES[i].shortName] = new Sprite('Flags/' + COUNTRIES[i].shortName + '.png');
     }
-    
-    this.canvasWidth = 0;
-
 };
 
 TargetingView.prototype = new View();
@@ -76,10 +73,7 @@ TargetingView.prototype.enter = function() {
 //Cake was a rather ok, jos ei oo mitään sanottavaa
 //Jos nega ja pos, molemmat, posi eka
 //spessucaset overrulaa
-
 TargetingView.prototype.cakeMatches = function(cake, conditions) {
-	//var conditionsOk = new Array(conditions.length);
-	//console.log("Comparing: "+cake.fillings+" vs "+conditions);
 	for (var i = 0; i < conditions.length; i++) {
 		var filling = conditions[i];
 		var ok = false;
@@ -154,8 +148,6 @@ TargetingView.prototype.exit = function() {
 		var cake = this.gameState.cakes[i];
 		var country = COUNTRIES[this.deliveries[i]]["name"];
 		var countryShort = COUNTRIES[this.deliveries[i]]["shortName"];
-		//COUNTRIES[this.deliveries[i]].life -= 3;
-
 		var matchingTriggers = new Array();
 
 		for (var c = 0; c < TRIGGERS.length; c++) {
@@ -176,7 +168,7 @@ TargetingView.prototype.exit = function() {
 
 		console.log("Triggers\n"+matchingTriggers);
 		if (matchingTriggers.length == 0) {
-			var bodyText = /*country.toUpperCase()+ " " + */"In a shocking turn of events, the citizens of [country] announced yesterday that [company name] supplied them with cake that they really thought nothing special about. It wasn’t horrendous, it wasn’t good, it wasn’t an explosive and no mythical animals jumped out of the cake to abolish all evil. However, market analysts assure that different combinations of cake fillings delivered to this country can make this front page a lot more interesting.";
+			var bodyText = "In a shocking turn of events, the citizens of [country] announced yesterday that [company name] supplied them with cake that they really thought nothing special about. It wasn’t horrendous, it wasn’t good, it wasn’t an explosive and no mythical animals jumped out of the cake to abolish all evil. However, market analysts assure that different combinations of cake fillings delivered to this country can make this front page a lot more interesting.";
 			this.gameState.news.push(new Article(0, country, "Cake Is Apparently Rather OK", bodyText));
 		} else {
 			var priority = 0;
@@ -212,7 +204,6 @@ TargetingView.prototype.exit = function() {
 						COUNTRIES[this.deliveries[i]].life -= 1 * count;
 					}
 				}
-				//console.log("BODY:"+body);
 				this.gameState.news.push(new Article(priority, country, "Caky News With a Generic Headline", body));
 			} else {
 				var article = new Article(priority, country, matchingTriggers[selected].headline, matchingTriggers[selected].text);
@@ -246,8 +237,8 @@ TargetingView.prototype.leftArrow = function() {
 	this.selectedPoint = (this.selectedPoint + COUNTRIES.length - 1) % COUNTRIES.length;
 	this.previousPositionX = this.positionX;
 	this.previousPositionY = this.positionY;
-    this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];// + this.canvasWidth / 2;
-    this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];// + this.canvasWidth / 2;
+    this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
+    this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
     this.crosshairFx.playClone();
 };
 TargetingView.prototype.rightArrow = function() {
@@ -255,8 +246,8 @@ TargetingView.prototype.rightArrow = function() {
 	this.selectedPoint = Math.abs((this.selectedPoint + 1) % COUNTRIES.length);
 	this.previousPositionX = this.positionX;
 	this.previousPositionY = this.positionY;
-    this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];// + this.canvasWidth / 2;
-    this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];// + this.canvasWidth / 2;
+    this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
+    this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
     this.crosshairFx.playClone();
 };
 
@@ -275,8 +266,8 @@ TargetingView.prototype.nextPoint = function() {
 	this.selectedPoint = Math.abs((this.selectedPoint + 1) % COUNTRIES.length);
 	this.previousPositionX = this.positionX;
 	this.previousPositionY = this.positionY;
-    this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];// + this.canvasWidth / 2;
-    this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];// + this.canvasWidth / 2;
+    this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
+    this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
 }
 
 TargetingView.prototype.space = function() {
@@ -415,11 +406,6 @@ TargetingView.prototype.drawDecorText = function(ctx) {
 	var screen_X = this.toScreenX(tx, ctx);
 	var ty = this.positionY + 100.0;
 	var screen_Y = this.toScreenY(ty, ctx);
- 	/*ctx.save();
-		ctx.translate(screen_X, screen_Y)
-		ctx.fillStyle = '#0000ff';
-		ctx.fillRect(- 5, - 5, 10, 10);
-	ctx.restore();*/
 
     ctx.save();
     ctx.translate(20, 20);
@@ -457,19 +443,10 @@ var strikeThrough = function(ctx, text, textX, y, color, thickness) {
 };
 
 TargetingView.prototype.draw = function(ctx) {
-
-    ctx.fillStyle = '#f8a';
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-	if (this.canvasWidth == 0) this.canvasWidth = ctx.canvas.width;
 	ctx.mozImageSmoothingEnabled = true;
 	ctx.save();
 
-	//this.positionX = 0;
-	//this.positionY = 0;
-	//this.scale = 1.5;
-
-	//Map & all related scrolling stufff
+	//Map & all related scrolling stuff
 	var screenY = this.toScreenY(this.positionY, ctx);
 	var clamp = 0;
 	if (screenY > 0) {

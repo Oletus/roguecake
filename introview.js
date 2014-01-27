@@ -32,12 +32,6 @@ IntroView.prototype.update = function(deltaTimeMillis) {
     return this.exiting;
 };
 
-IntroView.prototype.space = function() {
-    /*if (this.readTime > 500) {
-        this.exiting = true;
-    }*/
-};
-
 IntroView.prototype.enterKey = function() {
     console.log("enterKey");
     if (this.readTime > 500 && document.getElementById('company_input').value.length >= 3) {
@@ -47,46 +41,46 @@ IntroView.prototype.enterKey = function() {
 
 
 IntroView.prototype.addAElements = function() {
-var wrap = document.getElementById("canvaswrap");
-animw = document.createElement("div");
-animw.id = 'animview';
-wrap.appendChild(animw);
+    var wrap = document.getElementById("canvaswrap");
+    animw = document.createElement("div");
+    animw.id = 'animview';
+    wrap.appendChild(animw);
 
-var globeplace = document.createElement("div");
-globeplace.id = 'globe';
+    var globeplace = document.createElement("div");
+    globeplace.id = 'globe';
 
-var logo = document.createElement("div");
-logo.id = 'logo';
-logo.style.position="absolute";
-logo.style.zIndex="1";
+    var logo = document.createElement("div");
+    logo.id = 'logo';
+    logo.style.position="absolute";
+    logo.style.zIndex="1";
 
-var logoimg = document.createElement("img");
-logoimg.src = "Assets/intrologo.png";
+    var logoimg = document.createElement("img");
+    logoimg.src = "Assets/intrologo.png";
 
-var logname = document.createElement("div");
-logname.id = 'company_name';
-animw.appendChild(logname);
-var inputElement = document.createElement("input");
-inputElement.id = 'company_input';
-inputElement.placeholder = "Company name";
-inputElement.maxLength = 18;
-inputElement.autofocus = true;
+    var logname = document.createElement("div");
+    logname.id = 'company_name';
+    animw.appendChild(logname);
+    var inputElement = document.createElement("input");
+    inputElement.id = 'company_input';
+    inputElement.placeholder = "Company name";
+    inputElement.maxLength = 18;
+    inputElement.autofocus = true;
 
-logname.appendChild(inputElement);
+    logname.appendChild(inputElement);
 
-var textElem = document.createElement("div");
-textElem.id = 'instructions';
-textElem.textContent = 'Use arrow keys and space to play!';
-animw.appendChild(textElem);
+    var textElem = document.createElement("div");
+    textElem.id = 'instructions';
+    textElem.textContent = 'Use arrow keys and space to play!';
+    animw.appendChild(textElem);
 
-textElem = document.createElement("div");
-textElem.id = 'credits';
-textElem.textContent = 'A GGJ2014 game by Annika Alhokankare, Olli Etuaho, Antti Hamara, Eero Klami, Katri Laine, Sami Rämä and Pyry Takkunen';
-animw.appendChild(textElem);
+    textElem = document.createElement("div");
+    textElem.id = 'credits';
+    textElem.textContent = 'A GGJ2014 game by Annika Alhokankare, Olli Etuaho, Antti Hamara, Eero Klami, Katri Laine, Sami Rämä and Pyry Takkunen';
+    animw.appendChild(textElem);
 
-animw.appendChild(globeplace);
-logo.appendChild(logoimg);
-animw.appendChild(logo);
+    animw.appendChild(globeplace);
+    logo.appendChild(logoimg);
+    animw.appendChild(logo);
 };
 
 

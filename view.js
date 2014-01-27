@@ -14,7 +14,7 @@ View.prototype.space = function() {
 View.prototype.enterKey = function() {
 };
 
-// Should return true when the view wants to exit.
+// Should return true when the view wants to exit. Note that the view doesn't exit immediately after returning true.
 View.prototype.update = function(deltaTimeMillis) {
 };
 View.prototype.draw = function(ctx) {
