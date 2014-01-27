@@ -210,7 +210,6 @@ TargetingView.prototype.exit = function() {
                 this.addMoney(matchingTriggers[selected].profit);
                 if (matchingTriggers[selected].conditions.length == 2) {
                     article.thirdFilling = this.getThirdFilling(cake, matchingTriggers[selected].conditions);
-                    console.log("ThirdFIlling: "+article.thirdFilling);
                 }
                 if (matchingTriggers[selected].damage === undefined) {
 
@@ -222,9 +221,10 @@ TargetingView.prototype.exit = function() {
         }
         //this.gameState.news.push(new Article(""+country+" received "+cake["fillings"][0]+" "+cake["fillings"][1]+" "+cake["fillings"][2]));
     }
+    this.gameState.replaceArticleKeywords();
 
     console.log(this.gameState.news);
-    console.log("BALANCE: "+this.gameState.balance);
+    console.log("BALANCE: " + this.gameState.balance);
     if (this.gameState.news.length == 0) this.gameState.news.push(new Article(1, "", "Developer skipped"));//, new Article("This too")];
 
 

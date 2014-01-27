@@ -14,16 +14,23 @@ IntroView.prototype.enter = function() {
 IntroView.prototype.exit = function() {
     console.log("IntroView exit");
 
-    var companyName = "Default";
-    companyName = document.getElementById('company_input').value;
-    console.log("Company: "+companyName);
+    var companyName = document.getElementById('company_input').value.trim();
     if (companyName == "") companyName = "Caaake";
     this.gameState.companyName = companyName;
 
-    if(document.getElementById("animview")){
-    var elem = document.getElementById("animview");
-    elem.parentNode.removeChild(elem);
+    if (document.getElementById("animview")) {
+        var elem = document.getElementById("animview");
+        elem.parentNode.removeChild(elem);
     }
+    
+    var newsIndex = Math.floor(Math.random() * RANDOM_ARTICLES.length);
+
+    this.gameState.news = [
+        new Article(10, "", "Food waste illegalized", "From this day onwards, neither consumers nor food manufacturers are allowed to throw away edible things. Anything passable as human nutrition needs to be distributed and eaten. Analysts expect this to be extremely detrimental to innovation in the gastronomic industries."),
+        new Article(5, "", "Cake About To Hit the World", "Demand of cakes has increased worldwide, and a local confectionery [company name] aims to answer the high demand using their questionable random cake machine, ‘The Cakifier’. The Cakifier’s advantage on the market lies in the fact that it was originally intended for extremely rapid prototyping: it randomly picks ingredients and bakes a cake faster than anything else would. However, due to the recent changes in international legislation, [company name] is forced to sell every and any combination the Cakifier comes up with. Shareholders expect [company name] to produce and distribute three(3) cakes internationally per day."),
+        new Article(1, RANDOM_ARTICLES[newsIndex].country, RANDOM_ARTICLES[newsIndex].headline, RANDOM_ARTICLES[newsIndex].text)
+    ];
+    this.gameState.replaceArticleKeywords();
 
 };
 
@@ -34,7 +41,7 @@ IntroView.prototype.update = function(deltaTimeMillis) {
 
 IntroView.prototype.enterKey = function() {
     console.log("enterKey");
-    if (this.readTime > 500 && document.getElementById('company_input').value.length >= 3) {
+    if (this.readTime > 500 && document.getElementById('company_input').value.trim().length >= 3) {
         this.exiting = true;
     }
 };
@@ -75,7 +82,7 @@ IntroView.prototype.addAElements = function() {
 
     textElem = document.createElement("div");
     textElem.id = 'credits';
-    textElem.textContent = 'A GGJ2014 game by Annika Alhokankare, Olli Etuaho, Antti Hamara, Eero Klami, Katri Laine, Sami Rämä and Pyry Takkunen';
+    textElem.textContent = 'A GGJ2014 game by Annika Alhokankare, Olli Etuaho, Antti Hamara, Eero Klami, Katri Laine, Sami Rämä and Pyry Takkunen - post-jam version';
     animw.appendChild(textElem);
 
     animw.appendChild(globeplace);

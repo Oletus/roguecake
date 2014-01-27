@@ -50,25 +50,13 @@ NewspaperView.prototype = new View();
 NewspaperView.prototype.draw = function(ctx) {
 };
 
-NewspaperView.prototype.replace = function(textIn, country, thirdFilling) {
-    var regExp = new RegExp('\\['+'company name'+'\\]', 'g');
-    var text = textIn.replace(regExp, this.gameState.companyName);
-    regExp = new RegExp('\\['+'cake company'+'\\]', 'g');
-    text = text.replace(regExp, this.gameState.companyName);
-    regExp = new RegExp('\\['+'third filling'+'\\]', 'g');
-    if (thirdFilling === undefined) thirdFilling = "";
-    text = text.replace(regExp, thirdFilling);
-    text = text.replace("[country]", country);
-    return text;
-}
-
 NewspaperView.prototype.enter = function() {
     this.music.play();
     this.date.setTime(this.date.getTime() + 1000 * 60 * 60 * 24);
     for (var i = 0; i < this.papers.length; ++i) {
         if (i < this.gameState.news.length) {
             this.papers[i].headline.textContent = this.gameState.news[i].headline;
-            this.papers[i].article.innerHTML = this.gameState.news[i].text ? this.replace(this.gameState.news[i].text,this.gameState.news[i].country,this.gameState.news[i].thirdFilling) : '';
+            this.papers[i].article.innerHTML = this.gameState.news[i].text;
             this.papers[i].country.innerHTML = '';
             if (this.gameState.news[i].country) {
                 for (var j = 0; j < COUNTRIES.length; ++j) {

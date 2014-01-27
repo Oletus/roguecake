@@ -623,52 +623,52 @@ var TRIGGERS = [
 RANDOM_ARTICLES = [
 {
     country: "Southwest Kaunistatud",
-    headLine: "Dictator Beats Lions",
+    headline: "Dictator Beats Lions",
     text: "Kaunistatudian news outlets report that the glorious dictator, Ime Mun-Aa, emerged triumphant after a battle with an entire pride of hungry mountain lions. This news comes only a week after the nation made an official statement to announce that their glorious leader has abandoned human teeth to make room for fangs that are about to gloriously emerge.",
 },
 {
     country: "Efushima",
-    headLine: "Efushimans Not Weird Today",
+    headline: "Efushimans Not Weird Today",
     text: "The peculiar people of Efushima announced today that their entire country is suffering from collective boredom, as already two days have passed since the nation went completely nuts over something. Experts have theorized that poor culinary variation is a major reason to Efushima’s creative drought, and the country is looking for unexpected flavor combinations and badass animals to replenish their will to live.",
 },
 {
     country: "Constitutionia",
-    headLine: "Lack of Pigs Found Disturbing",
+    headline: "Lack of Pigs Found Disturbing",
     text: "The Constitutionian government announced today that although they are the freest and bravest and most envied country in the entire world because of their bigger cars or something, they are close to declaring martial law. Apparently, the country has run out of bacon due to a recent family barbeque party where all of the pigs from the nation were used as targets in the shooting range. To compensate for the lack of greasy, bacony goodness and to keep people from starting to shoot every other animal in anger, the government has ordered some delicious cakes from [company name].",
 },
 {
     country: "St. Roos & Koalas",
-    headLine: "Still No Savior - People Hopeful",
+    headline: "Still No Savior - People Hopeful",
     text: "Vicious animal attacks continue in the Southern island nation of St. Roos & Koalas. Families have been torn apart limb from limb by the giant spiders, crocodiles, sharks, snails and all the other wonderful animals that the nation is packed with. The brave people do, however, see a glimpse of hope in their ancient scripture that predicts a ‘flaming animal to end all animals’ to emerge from a cake. Needless to say, the government has decided to increase its odds to get the prophecy fulfilled by contacting [company name] for some delicious cakes.",
 },
 {
     country: "Tailland",
-    headLine: "Still Cold In Tailland",
+    headline: "Still Cold In Tailland",
     text: "As is usual this time of the year, the Taillish people of the North are bored, drunk and depressed. To lift their spirits in these dark times, the people have collectively decided to order lots of cake. So far, scientists and chefs alike have been trying to find the right combination of traditional tastes to fit this challenging market.",
 },
 {
     country: "Svetlania",
-    headLine: "Svetlania Launches Bionic Weapons Programme",
+    headline: "Svetlania Launches Bionic Weapons Programme",
     text: "Svetlanian military officials, a group known for doing mostly nothing aside from partying at the government’s expense, recently announced that they are ‘studying nature to find ways to make the most super awesome submarine’. According to an inside source, the Svetlanians are looking to advance beyond projectile weaponry. Whatever this means is anyone’s guess.",
 },
 {
     country: "The Topseas",
-    headLine: "Partying About To Go Down",
+    headline: "Partying About To Go Down",
     text: "The government of the liberal state of the Topseas recently announced that any individual over the age of 65 is allowed to take any substance into their body, as long as such consumption happens away from minors in governmentally regulated roller discos. To celebrate this occasion, the Topseasian Pensioners Association has ordered lots of ‘surprise cakes’ from [company name].",
 },
 {
     country: "Turquoiseland",
-    headLine: "Seals Still Disappearing",
+    headline: "Seals Still Disappearing",
     text: "Despite the Turquoiselandian government’s best efforts, the country’s seal population remains in a steady decline. Experts believe poaching to play its part in this, as recent market analysis indicates baby seal to be a favored cake filling among the populations of both their country of origin and the poachers’ tropic homeland. So far, police has been unable to determine where the captured baby seals disappear into, but a close eye is kept on manufacturers of food and clothing.",
 },
 {
     country: "Hippo Coast",
-    headLine: "Civil Unrest About To Subside",
+    headline: "Civil Unrest About To Subside",
     text: "The volatile situation in Hippo Coast has calmed down a little bit. Not that the people are any calmer, it’s just that they have run out of bullets and stimulants. ‘I rarely feel the need to kill people anymore’, said a child soldier in a depressed manner while visibly suffering from withdrawal symptoms, ‘and even if I did, I couldn’t do so from a distance’. Due to high rates of HIV in the country, Hippocoastians tend to avoid using melee weaponry when killing people in order to avoid blood spatter.",
 },
 {
     country: "Cartellia",
-    headLine: "Grand Boss Angry - Demands Cakes",
+    headline: "Grand Boss Angry - Demands Cakes",
     text: "The revered grand boss of Cartellia, the head of the world’s biggest drug empire, went on national television yesterday to express dissatisfaction with the types of cakes that Cartellian bakeries have to offer. Apparently, disallowing all agriculture unrelated to cocaine wasn’t such a smart move, considering that the ‘other kind of sugar’ doesn’t really work that well on cakes.",
 },
 ];
@@ -707,20 +707,11 @@ var Article = function(priority, country, headline, text) {
 };
 
 var GameState = function() {
-    // List of Cakes, filled in by CakeView, cleared by TargetingView
+    // List of Cakes, filled in by CakeView
     this.cakes = [];
-    // List of Articles, filled in by TargetingView, cleared by NewspaperView
-    var art = new Article(11, "Maa", "Demand of cakes increasing worldwide", "[company name] [country] [third filling] [cake company]");
-    //art.thirdFilling = "Feta";
+    // List of Articles, filled in by TargetingView or IntroView
+    this.news = [];
 
-    var newsIndex = Math.floor((Math.random()*RANDOM_ARTICLES.length));
-
-    this.news = [
-        new Article(10, "", "Food waste illegalized", "From this day onwards, neither consumers nor food manufacturers are allowed to throw away edible things. Anything passable as human nutrition needs to be distributed and eaten. Analysts expect this to be extremely detrimental to innovation in the gastronomic industries."),
-        new Article(5, "", "Cake About To Hit the World", "Demand of cakes has increased worldwide, and a local confectionery [company name] aims to answer the high demand using their questionable random cake machine, ‘The Cakifier’. The Cakifier’s advantage on the market lies in the fact that it was originally intended for extremely rapid prototyping: it randomly picks ingredients and bakes a cake faster than anything else would. However, due to the recent changes in international legislation, [company name] is forced to sell every and any combination the Cakifier comes up with. Shareholders expect [company name] to produce and distribute three(3) cakes internationally per day."),
-        new Article(1, RANDOM_ARTICLES[newsIndex].country, RANDOM_ARTICLES[newsIndex].headLine, RANDOM_ARTICLES[newsIndex].text)
-//        art,
-    ];
     // List of strings, filled in by TargetingView based on filled conditions.
     // Read by TargetingView when checking conditions
     this.worldState = [];
@@ -731,7 +722,29 @@ var GameState = function() {
         COUNTRIES[i].life = 3;
     }
 
-    this.companyName = "Kakku Keisarit";
+    this.companyName = '';
+};
+
+GameState.replaceKeywords = function(textIn, companyName, country, thirdFilling) {
+    if (thirdFilling === undefined) thirdFilling = '';
+
+    var regExp = new RegExp('\\['+'company name'+'\\]', 'g');
+    var text = textIn.replace(regExp, companyName);
+    regExp = new RegExp('\\['+'cake company'+'\\]', 'g');
+    text = text.replace(regExp, companyName);
+    regExp = new RegExp('\\['+'third filling'+'\\]', 'g');
+    text = text.replace(regExp, thirdFilling);
+    text = text.replace('[country]', country);
+    return text;
+};
+
+GameState.prototype.replaceArticleKeywords = function() {
+    for (var i = 0; i < this.news.length; ++i) {
+        this.news[i].text = GameState.replaceKeywords(this.news[i].text,
+                                                      this.companyName,
+                                                      this.news[i].country,
+                                                      this.news[i].thirdFilling);
+    }
 };
 
 var views;
