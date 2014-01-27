@@ -1,19 +1,10 @@
 var TargetingView = function(gameState) {
     this.gameState = gameState;
- 
-    this.img = document.createElement('img');
-    this.img.src = "Assets/map.png";
-    this.loaded = false;
-    var that = this;
-    this.img.onload = function() {
-        that.loaded = true;
-        that.width = that.img.width;
-        that.height = that.img.height;
-    };
-    
+
     this.music = new Audio('music_map', true);
     this.crosshairFx = new Audio('fx_map_crosshair');
 
+    this.mapSprite = new Sprite("map.png");
     this.cursorSprite = new Sprite("cursor_center.png");
     this.cursorHorizontal = new Sprite("cursor_horizontal.png");
     this.cursorVertical = new Sprite("cursor_vertical.png");
@@ -359,39 +350,63 @@ TargetingView.prototype.update = function(deltaTimeMillis) {
     } else this.scale = 2.0;
 };
 
-
+/**
+ * Draw a single copy of the map
+ */
 TargetingView.prototype.drawMap = function(ctx) {
-    ctx.save();
-        ctx.drawImage(this.img, 0, 0);
-
-        for (var i = 0; i < COUNTRIES.length; i++) {
-            ctx.fillStyle = '#fb8';
-            if (this.isLocationOccupied(i)) ctx.fillStyle = '#00ff00';
-            px = COUNTRIES[i]["mapLocation"][0];
-            py = COUNTRIES[i]["mapLocation"][1];
-            ctx.save();
-            ctx.translate(px, py);
-            ctx.fillRect(-5, -5,10,10);
-            ctx.font = "16px digital";
-            ctx.textAlign = "left";
-            ctx.textBaseline = "hanging";
-            ctx.fillText(COUNTRIES[i]["name"], 22, 2);
-            for (var j = 0; j < COUNTRIES[i].life; ++j) {
-                this.heartSprite.drawRotatedNonUniform(ctx, -30 - 18 * j, 11, 0, 0.6, 0.6);
-            }
-            for (var j = 0; j < this.deliveries.length; ++j) {
-                if (this.deliveries[j] === i) {
-                    ctx.font = "12px digital";
-                    ctx.textBaseline = "bottom";
-                    ctx.fillText(this.menuOptions[j], 22, -2);
-                }
-            }
-            ctx.restore();
+    this.mapSprite.draw(ctx, 0, 0);
+    for (var i = 0; i < COUNTRIES.length; i++) {
+        ctx.fillStyle = '#fb8';
+        if (this.isLocationOccupied(i)) ctx.fillStyle = '#00ff00';
+        px = COUNTRIES[i]["mapLocation"][0];
+        py = COUNTRIES[i]["mapLocation"][1];
+        ctx.save();
+        ctx.translate(px, py);
+        ctx.fillRect(-5, -5,10,10);
+        ctx.font = "16px digital";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "hanging";
+        ctx.fillText(COUNTRIES[i]["name"], 22, 2);
+        for (var j = 0; j < COUNTRIES[i].life; ++j) {
+            this.heartSprite.drawRotatedNonUniform(ctx, -30 - 18 * j, 11, 0, 0.6, 0.6);
         }
+        for (var j = 0; j < this.deliveries.length; ++j) {
+            if (this.deliveries[j] === i) {
+                ctx.font = "12px digital";
+                ctx.textBaseline = "bottom";
+                ctx.fillText(this.menuOptions[j], 22, -2);
+            }
+        }
+        ctx.restore();
+    }
+};
 
+TargetingView.prototype.drawMapRepeated = function(ctx, clamp) {
+    //Map & all related scrolling stuff
+    screenY = this.toScreenY(this.positionY + this.mapSprite.height, ctx);
+    if (screenY < ctx.canvas.height) {
+        clamp = (ctx.canvas.height - screenY) / this.scale;
+    }
+    var clamped_y = this.positionY + clamp;
+    
+    ctx.save();
+
+    ctx.translate(ctx.canvas.width * 0.5, ctx.canvas.height * 0.5);
+    var scale = this.scale;
+    if (this.state === TargetingView.state.FINISH) {
+        scale *= Math.pow(2, this.stateTime * 0.005);
+    }
+    ctx.scale(scale, scale);
+
+    ctx.translate(this.positionX, clamped_y);
+    this.drawMap(ctx);
+    ctx.translate(-this.mapSprite.width, 0);
+    this.drawMap(ctx);
+    ctx.translate(2 * this.mapSprite.width, 0);
+    this.drawMap(ctx);
 
     ctx.restore();
-}
+};
 
 TargetingView.prototype.toScreenX = function(worldX, ctx) {
     return worldX * this.scale + ctx.canvas.width * 0.5;
@@ -401,27 +416,54 @@ TargetingView.prototype.toScreenY = function(worldY, ctx) {
     return worldY * this.scale + ctx.canvas.height * 0.5;
 }
 
+TargetingView.prototype.drawTargetingCursor = function(ctx, clamp) {
+    //Targeting cursor
+    ctx.save();
+    ctx.translate(0, clamp * this.scale);
+    this.cursorSprite.drawRotated(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5, 0, 1);
+    var lineWidth = ctx.canvas.width * 0.75;
+    var scaleRatio = lineWidth / this.cursorHorizontal.width;
+    var cw = this.cursorSprite.width * 0.55 + (2-this.scale) * 50;
+    var ch = this.cursorSprite.width * 0.55 + (2-this.scale) * 50;
+    this.cursorHorizontal.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5 + cw + lineWidth * 0.5, ctx.canvas.height * 0.5, 0, scaleRatio, 1);
+    this.cursorHorizontal.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5 - cw - lineWidth * 0.5, ctx.canvas.height * 0.5, 0, scaleRatio, 1);
+    scaleRatio = lineWidth / this.cursorVertical.height;
+    this.cursorVertical.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5 + ch + lineWidth * 0.5, 0, 1, scaleRatio);
+    this.cursorVertical.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5 - ch - lineWidth * 0.5, 0, 1, scaleRatio);
+    ctx.restore();
+}
+
 TargetingView.prototype.drawDecorText = function(ctx) {
-    var tx = this.positionX + 100.0;
+    var tx = this.positionX;
     var screen_X = this.toScreenX(tx, ctx);
-    var ty = this.positionY + 100.0;
+    var ty = this.positionY;
     var screen_Y = this.toScreenY(ty, ctx);
 
     ctx.save();
     ctx.translate(20, 20);
     ctx.globalAlpha = 0.4;
-    ctx.font = '12px digital';
+    ctx.font = '15px digital';
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
-    var rowH = 15;
-    ctx.fillText("tx: "+tx+" "+Math.round(screen_X),0,0);
-    ctx.fillText("ty: "+ty+" "+Math.round(screen_Y),0,rowH);
-    screen_Y = this.toScreenY(this.positionY, ctx);
-    ctx.fillText("posX: "+ty+" "+Math.round(screen_X),0,rowH * 2);
-    screen_Y = this.toScreenY(this.positionY + this.img.height, ctx);
-    ctx.fillText("posY: "+ty+" "+Math.round(screen_Y),0,rowH * 3);
-    ctx.fillText("TARGET: "+this.targetPositionX+","+this.targetPositionY,0,rowH * 4);
+    ctx.fillStyle = '#0ff';
+    var rowH = 20;
+    ctx.fillText("tx: " + tx + " " + Math.round(screen_X), 0, 0);
+    ctx.fillText("ty: " + ty + " " + Math.round(screen_Y), 0, rowH);
+    ctx.fillText("TARGET: " + this.targetPositionX + "," + this.targetPositionY, 0, rowH * 2);
     ctx.restore();
+};
+
+TargetingView.prototype.drawFlag = function(ctx) {
+    if (this.cameraStopped) {
+        var flag = this.flags[COUNTRIES[this.selectedPoint].shortName];
+        ctx.save();
+        ctx.globalAlpha = 0.5;
+        ctx.translate(ctx.canvas.width - 22 - flag.width * 0.7, 22);
+        ctx.scale(0.7, 0.7);
+        flag.draw(ctx, 0, 0);
+        ctx.globalAlpha = 1.0;
+        ctx.restore();
+    }
 };
 
 var strikeThrough = function(ctx, text, textX, y, color, thickness) {
@@ -444,71 +486,23 @@ var strikeThrough = function(ctx, text, textX, y, color, thickness) {
 
 TargetingView.prototype.draw = function(ctx) {
     ctx.mozImageSmoothingEnabled = true;
-    ctx.save();
 
-    //Map & all related scrolling stuff
     var screenY = this.toScreenY(this.positionY, ctx);
     var clamp = 0;
     if (screenY > 0) {
         clamp = -screenY / this.scale;
     }
-    var screenY = this.toScreenY(this.positionY + this.img.height, ctx);
-    if (screenY < ctx.canvas.height) {
-        clamp = (ctx.canvas.height - screenY) / this.scale;
-    }
-    var clamped_y = this.positionY + clamp;
 
-    if (this.loaded) {
- 
-         ctx.save();
-         ctx.translate(ctx.canvas.width * 0.5, ctx.canvas.height * 0.5);
-        var scale = this.scale;
-        if (this.state === TargetingView.state.FINISH) {
-            scale *= Math.pow(2, this.stateTime * 0.005);
-        }
-        ctx.scale(scale, scale);
-        ctx.translate(this.positionX, clamped_y);
-        this.drawMap(ctx);
-
-        //Repeats
-        ctx.translate(-this.img.width, 0);
-        this.drawMap(ctx);
-        ctx.translate(2 * this.img.width, 0);
-        this.drawMap(ctx);
-        ctx.restore();
+    if (this.mapSprite.loaded) {
+        this.drawMapRepeated(ctx, clamp);
     }
 
-    if (this.cameraStopped) {
-        var flag = this.flags[COUNTRIES[this.selectedPoint].shortName];
-        ctx.save();
-        ctx.globalAlpha = 0.5;
-        ctx.translate(ctx.canvas.width - 22 - flag.width * 0.7, 22);
-        ctx.scale(0.7, 0.7);
-        flag.draw(ctx, 0, 0);
-        ctx.globalAlpha = 1.0;
-        ctx.restore();
-    }
-    
+    this.drawFlag(ctx);
+
     // screen overlay effect
     this.overlaySprite.draw(ctx, 0, 0);
 
-    //Targeting cursor
-    ctx.restore();
-    ctx.fillStyle = '#00ffff';
-    ctx.save();
-    ctx.translate(0, clamp * this.scale);
-    this.cursorSprite.drawRotated(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5, 0, 1);
-    var lineWidth = ctx.canvas.width * 0.75;
-    var scaleRatio = lineWidth / this.cursorHorizontal.width;
-    var cw = this.cursorSprite.width * 0.55 + (2-this.scale) * 50;
-    var ch = this.cursorSprite.width * 0.55 + (2-this.scale) * 50;
-    this.cursorHorizontal.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5 + cw + lineWidth * 0.5, ctx.canvas.height * 0.5, 0, scaleRatio, 1);
-    this.cursorHorizontal.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5 - cw - lineWidth * 0.5, ctx.canvas.height * 0.5, 0, scaleRatio, 1);
-    scaleRatio = lineWidth / this.cursorVertical.height;
-    this.cursorVertical.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5 + ch + lineWidth * 0.5, 0, 1, scaleRatio);
-    this.cursorVertical.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5 - ch - lineWidth * 0.5, 0, 1, scaleRatio);
-    ctx.restore();
-
+    this.drawTargetingCursor(ctx, clamp);
     this.drawDecorText(ctx);
 
     for (var i = 0; i < this.menuOptions.length; ++i) {
