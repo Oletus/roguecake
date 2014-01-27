@@ -81,7 +81,7 @@ animw.appendChild(textElem);
 
 textElem = document.createElement("div");
 textElem.id = 'credits';
-textElem.textContent = 'A GGJ2014 game by Annika Alhokankare, Olli Etuaho, Antti Havara, Eero Klami, Katri Laine, Sami Rämä and Pyry Takkunen';
+textElem.textContent = 'A GGJ2014 game by Annika Alhokankare, Olli Etuaho, Antti Hamara, Eero Klami, Katri Laine, Sami Rämä and Pyry Takkunen';
 animw.appendChild(textElem);
 
 animw.appendChild(globeplace);
