@@ -36,21 +36,21 @@ TargetingView.state = {
 TargetingView.prototype.enter = function() {
     this.music.play();
     this.state = TargetingView.state.CHOOSE;
-	console.log("Cakes");
-	console.log(this.gameState.cakes);
+    console.log("Cakes");
+    console.log(this.gameState.cakes);
 
 
     this.selectedPoint = Math.floor((Math.random()*COUNTRIES.length));
     this.positionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
     this.positionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
-	//this.positionX = 0;
-	//this.positionY = 0;
+    //this.positionX = 0;
+    //this.positionY = 0;
     this.targetPositionX = this.positionX;
     this.targetPositionY = this.positionY;
     this.previousPositionX = this.positionX;
-	this.previousPositionY = this.positionY;
-	//this.positionX = 0;
-	//this.positionY = 0;
+    this.previousPositionY = this.positionY;
+    //this.positionX = 0;
+    //this.positionY = 0;
 
 
     this.scale = 2;
@@ -61,8 +61,8 @@ TargetingView.prototype.enter = function() {
     this.deliveries = [undefined, undefined, undefined];
 
     this.menuOptions = [];
-	for (var i = 0; i < this.gameState.cakes.length; i++) {
-		var text = "Cake " + (3 - i) + ": ";
+    for (var i = 0; i < this.gameState.cakes.length; i++) {
+        var text = "Cake " + (3 - i) + ": ";
         text += this.gameState.cakes[i].fillings.join(' - ');
         this.menuOptions.push(text);
     }
@@ -74,25 +74,25 @@ TargetingView.prototype.enter = function() {
 //Jos nega ja pos, molemmat, posi eka
 //spessucaset overrulaa
 TargetingView.prototype.cakeMatches = function(cake, conditions) {
-	for (var i = 0; i < conditions.length; i++) {
-		var filling = conditions[i];
-		var ok = false;
-		for (var f = 0; f < cake.fillings.length; f++) {
-			if (cake.fillings[f] == filling) ok = true;
-		}
-		if (ok == false) return false;
-	}
-	return true;
+    for (var i = 0; i < conditions.length; i++) {
+        var filling = conditions[i];
+        var ok = false;
+        for (var f = 0; f < cake.fillings.length; f++) {
+            if (cake.fillings[f] == filling) ok = true;
+        }
+        if (ok == false) return false;
+    }
+    return true;
 }
 
 //Should be called only for single fillings!
 TargetingView.prototype.getMatchingCount = function(cake, conditions) {
-		var filling = conditions[0];
-		var count = 0;
-		for (var f = 0; f < cake.fillings.length; f++) {
-			if (cake.fillings[f] == filling) count++;
-		}
-		return count;
+        var filling = conditions[0];
+        var count = 0;
+        for (var f = 0; f < cake.fillings.length; f++) {
+            if (cake.fillings[f] == filling) count++;
+        }
+        return count;
 
 }
 
@@ -112,120 +112,120 @@ TargetingView.prototype.developerSkip = function() {
 };
 
 TargetingView.prototype.addMoney = function(amount) {
-	console.log("Adding: "+amount);
-	if (amount === undefined) {
+    console.log("Adding: "+amount);
+    if (amount === undefined) {
 
-	} else {
-		this.gameState.balance += amount;
-	}
+    } else {
+        this.gameState.balance += amount;
+    }
 }
 
 TargetingView.prototype.getThirdFilling = function(cake, conditions) {
-	var used = [0, 0];
-	for (var i = 0; i < conditions.length; i++) {
-		var filling = conditions[i];
-		var ok = false;
-		for (var f = 0; f < cake.fillings.length; f++) {
-			if (!ok) {
-				if (cake.fillings[f] == filling) ok = true;
-				used[i] = f;
-			}
-		}
-		if (ok == false) return false;
-	}
-	for (var f = 0; f < cake.fillings.length; f++) {
-		if (!contains(used, f)) return cake.fillings[f];
-	}
+    var used = [0, 0];
+    for (var i = 0; i < conditions.length; i++) {
+        var filling = conditions[i];
+        var ok = false;
+        for (var f = 0; f < cake.fillings.length; f++) {
+            if (!ok) {
+                if (cake.fillings[f] == filling) ok = true;
+                used[i] = f;
+            }
+        }
+        if (ok == false) return false;
+    }
+    for (var f = 0; f < cake.fillings.length; f++) {
+        if (!contains(used, f)) return cake.fillings[f];
+    }
 }
 
 TargetingView.prototype.exit = function() {
     this.music.stop();
-	console.log("TargetingView.exit");
-	this.gameState.news = [];
-	var i = 0;
-	for (i = 0; i < this.deliveries.length; i++) {
-		console.log("Delivering cake: "+i);
-		var cake = this.gameState.cakes[i];
-		var country = COUNTRIES[this.deliveries[i]]["name"];
-		var countryShort = COUNTRIES[this.deliveries[i]]["shortName"];
-		var matchingTriggers = new Array();
+    console.log("TargetingView.exit");
+    this.gameState.news = [];
+    var i = 0;
+    for (i = 0; i < this.deliveries.length; i++) {
+        console.log("Delivering cake: "+i);
+        var cake = this.gameState.cakes[i];
+        var country = COUNTRIES[this.deliveries[i]]["name"];
+        var countryShort = COUNTRIES[this.deliveries[i]]["shortName"];
+        var matchingTriggers = new Array();
 
-		for (var c = 0; c < TRIGGERS.length; c++) {
-			var cond = TRIGGERS[c].conditions;
-			//console.log("Trigger("+c+"): "+TRIGGERS[c].inCountry);
-			if (TRIGGERS[c].inCountry === undefined) {
-				if (this.cakeMatches(cake, cond)) {
-					//this.gameState.news.push(new Article(TRIGGERS[c].headline, TRIGGERS[c].text));
-					matchingTriggers.push(TRIGGERS[c]);
-				}
-			} else if (contains(TRIGGERS[c].inCountry, countryShort)) {
-				if (this.cakeMatches(cake, cond)) {
-					//this.gameState.news.push(new Article(TRIGGERS[c].headline, TRIGGERS[c].text));
-					matchingTriggers.push(TRIGGERS[c]);
-				}
-			}
-		}
+        for (var c = 0; c < TRIGGERS.length; c++) {
+            var cond = TRIGGERS[c].conditions;
+            //console.log("Trigger("+c+"): "+TRIGGERS[c].inCountry);
+            if (TRIGGERS[c].inCountry === undefined) {
+                if (this.cakeMatches(cake, cond)) {
+                    //this.gameState.news.push(new Article(TRIGGERS[c].headline, TRIGGERS[c].text));
+                    matchingTriggers.push(TRIGGERS[c]);
+                }
+            } else if (contains(TRIGGERS[c].inCountry, countryShort)) {
+                if (this.cakeMatches(cake, cond)) {
+                    //this.gameState.news.push(new Article(TRIGGERS[c].headline, TRIGGERS[c].text));
+                    matchingTriggers.push(TRIGGERS[c]);
+                }
+            }
+        }
 
-		console.log("Triggers\n"+matchingTriggers);
-		if (matchingTriggers.length == 0) {
-			var bodyText = "In a shocking turn of events, the citizens of [country] announced yesterday that [company name] supplied them with cake that they really thought nothing special about. It wasn’t horrendous, it wasn’t good, it wasn’t an explosive and no mythical animals jumped out of the cake to abolish all evil. However, market analysts assure that different combinations of cake fillings delivered to this country can make this front page a lot more interesting.";
-			this.gameState.news.push(new Article(0, country, "Cake Is Apparently Rather OK", bodyText));
-		} else {
-			var priority = 0;
-			var selected = 0;
-			for (var s = 0; s < matchingTriggers.length; s++) {
-				if (matchingTriggers[s].priority > priority) {
-					priority = matchingTriggers[s].priority;
-					selected = s;
-				}	
-			}
-			if (priority <= 2) {
-				//Might be multiple items!
-				var body = "";
-				for (var s = 0; s < matchingTriggers.length; s++) {
-					if (matchingTriggers[s].priority == 2) {
-						body += matchingTriggers[s].text;
-						body += "\n\n<br><br>";
-						var count = this.getMatchingCount(cake, matchingTriggers[s].conditions);
-						var money = matchingTriggers[s].profit;
-						if (count == 2) money = 25;
-						if (count == 3) money = 50;
-						this.addMoney(money);
-					}
-				}
-				for (var s = 0; s < matchingTriggers.length; s++) {
-					if (matchingTriggers[s].priority == 1) {
-						body += matchingTriggers[s].text;
-						body += "\n\n<br><br>";
-						var count = this.getMatchingCount(cake, matchingTriggers[s].conditions);
-						if (count == 2) money = -25;
-						if (count == 3) money = -50;
-						this.addMoney(money);
-						COUNTRIES[this.deliveries[i]].life -= 1 * count;
-					}
-				}
-				this.gameState.news.push(new Article(priority, country, "Caky News With a Generic Headline", body));
-			} else {
-				var article = new Article(priority, country, matchingTriggers[selected].headline, matchingTriggers[selected].text);
-				this.addMoney(matchingTriggers[selected].profit);
-				if (matchingTriggers[selected].conditions.length == 2) {
-					article.thirdFilling = this.getThirdFilling(cake, matchingTriggers[selected].conditions);
-					console.log("ThirdFIlling: "+article.thirdFilling);
-				}
-				if (matchingTriggers[selected].damage === undefined) {
+        console.log("Triggers\n"+matchingTriggers);
+        if (matchingTriggers.length == 0) {
+            var bodyText = "In a shocking turn of events, the citizens of [country] announced yesterday that [company name] supplied them with cake that they really thought nothing special about. It wasn’t horrendous, it wasn’t good, it wasn’t an explosive and no mythical animals jumped out of the cake to abolish all evil. However, market analysts assure that different combinations of cake fillings delivered to this country can make this front page a lot more interesting.";
+            this.gameState.news.push(new Article(0, country, "Cake Is Apparently Rather OK", bodyText));
+        } else {
+            var priority = 0;
+            var selected = 0;
+            for (var s = 0; s < matchingTriggers.length; s++) {
+                if (matchingTriggers[s].priority > priority) {
+                    priority = matchingTriggers[s].priority;
+                    selected = s;
+                }    
+            }
+            if (priority <= 2) {
+                //Might be multiple items!
+                var body = "";
+                for (var s = 0; s < matchingTriggers.length; s++) {
+                    if (matchingTriggers[s].priority == 2) {
+                        body += matchingTriggers[s].text;
+                        body += "\n\n<br><br>";
+                        var count = this.getMatchingCount(cake, matchingTriggers[s].conditions);
+                        var money = matchingTriggers[s].profit;
+                        if (count == 2) money = 25;
+                        if (count == 3) money = 50;
+                        this.addMoney(money);
+                    }
+                }
+                for (var s = 0; s < matchingTriggers.length; s++) {
+                    if (matchingTriggers[s].priority == 1) {
+                        body += matchingTriggers[s].text;
+                        body += "\n\n<br><br>";
+                        var count = this.getMatchingCount(cake, matchingTriggers[s].conditions);
+                        if (count == 2) money = -25;
+                        if (count == 3) money = -50;
+                        this.addMoney(money);
+                        COUNTRIES[this.deliveries[i]].life -= 1 * count;
+                    }
+                }
+                this.gameState.news.push(new Article(priority, country, "Caky News With a Generic Headline", body));
+            } else {
+                var article = new Article(priority, country, matchingTriggers[selected].headline, matchingTriggers[selected].text);
+                this.addMoney(matchingTriggers[selected].profit);
+                if (matchingTriggers[selected].conditions.length == 2) {
+                    article.thirdFilling = this.getThirdFilling(cake, matchingTriggers[selected].conditions);
+                    console.log("ThirdFIlling: "+article.thirdFilling);
+                }
+                if (matchingTriggers[selected].damage === undefined) {
 
-				} else {
-					COUNTRIES[this.deliveries[i]].life -= matchingTriggers[selected].damage;
-				}
-				this.gameState.news.push(article);
-			}
-		}
-		//this.gameState.news.push(new Article(""+country+" received "+cake["fillings"][0]+" "+cake["fillings"][1]+" "+cake["fillings"][2]));
-	}
+                } else {
+                    COUNTRIES[this.deliveries[i]].life -= matchingTriggers[selected].damage;
+                }
+                this.gameState.news.push(article);
+            }
+        }
+        //this.gameState.news.push(new Article(""+country+" received "+cake["fillings"][0]+" "+cake["fillings"][1]+" "+cake["fillings"][2]));
+    }
 
-	console.log(this.gameState.news);
-	console.log("BALANCE: "+this.gameState.balance);
-	if (this.gameState.news.length == 0) this.gameState.news.push(new Article(1, "", "Developer skipped"));//, new Article("This too")];
+    console.log(this.gameState.news);
+    console.log("BALANCE: "+this.gameState.balance);
+    if (this.gameState.news.length == 0) this.gameState.news.push(new Article(1, "", "Developer skipped"));//, new Article("This too")];
 
 
 };
@@ -233,19 +233,19 @@ TargetingView.prototype.exit = function() {
 
 
 TargetingView.prototype.leftArrow = function() {
-	this.cameraStopped = false;
-	this.selectedPoint = (this.selectedPoint + COUNTRIES.length - 1) % COUNTRIES.length;
-	this.previousPositionX = this.positionX;
-	this.previousPositionY = this.positionY;
+    this.cameraStopped = false;
+    this.selectedPoint = (this.selectedPoint + COUNTRIES.length - 1) % COUNTRIES.length;
+    this.previousPositionX = this.positionX;
+    this.previousPositionY = this.positionY;
     this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
     this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
     this.crosshairFx.playClone();
 };
 TargetingView.prototype.rightArrow = function() {
-	this.cameraStopped = false;
-	this.selectedPoint = Math.abs((this.selectedPoint + 1) % COUNTRIES.length);
-	this.previousPositionX = this.positionX;
-	this.previousPositionY = this.positionY;
+    this.cameraStopped = false;
+    this.selectedPoint = Math.abs((this.selectedPoint + 1) % COUNTRIES.length);
+    this.previousPositionX = this.positionX;
+    this.previousPositionY = this.positionY;
     this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
     this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
     this.crosshairFx.playClone();
@@ -263,9 +263,9 @@ TargetingView.prototype.upArrow = function() {
 };
 
 TargetingView.prototype.nextPoint = function() {
-	this.selectedPoint = Math.abs((this.selectedPoint + 1) % COUNTRIES.length);
-	this.previousPositionX = this.positionX;
-	this.previousPositionY = this.positionY;
+    this.selectedPoint = Math.abs((this.selectedPoint + 1) % COUNTRIES.length);
+    this.previousPositionX = this.positionX;
+    this.previousPositionY = this.positionY;
     this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
     this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
 }
@@ -277,16 +277,16 @@ TargetingView.prototype.space = function() {
         return;
     }
     if (COUNTRIES[this.selectedPoint].life <= 0) return;
-	if (this.cameraStopped && this.state !== TargetingView.state.FINISH) {
-		console.log("deliveries " + this.deliveries + " - selected point " + this.selectedPoint);
+    if (this.cameraStopped && this.state !== TargetingView.state.FINISH) {
+        console.log("deliveries " + this.deliveries + " - selected point " + this.selectedPoint);
         var removedDelivery = false;
-		for (i = 0; i < this.deliveries.length; i++) {
-			if (this.deliveries[i] == this.selectedPoint) {
-				console.log("Already delivered, removing");
-				this.deliveries[i] = undefined;
+        for (i = 0; i < this.deliveries.length; i++) {
+            if (this.deliveries[i] == this.selectedPoint) {
+                console.log("Already delivered, removing");
+                this.deliveries[i] = undefined;
                 removedDelivery = true;
-			}
-		}
+            }
+        }
         this.deliveries[this.selectedCake] = this.selectedPoint;
         for (i = this.selectedCake; i > this.selectedCake - 3; --i) {
             if (this.deliveries[(i + 3) % 3] === undefined) {
@@ -310,7 +310,7 @@ TargetingView.prototype.space = function() {
             this.stateTime = 0;
             this.menuOptions.splice(this.menuOptions.length - 1, 1);
         }
-	}
+    }
 };
 
 
@@ -320,14 +320,14 @@ function sign(x) {
 }
 
 TargetingView.prototype.isLocationOccupied = function(location) {
-	if (this.deliveries.length == 0) return false;
-	var length = this.deliveries.length;
-	for (t = 0; t < length; t++) {
-		if (this.deliveries[t] == location) {
-			return true;
-		}
-	}
-	return false;
+    if (this.deliveries.length == 0) return false;
+    var length = this.deliveries.length;
+    for (t = 0; t < length; t++) {
+        if (this.deliveries[t] == location) {
+            return true;
+        }
+    }
+    return false;
 
 }
 
@@ -340,42 +340,42 @@ TargetingView.prototype.update = function(deltaTimeMillis) {
     }
 
     if (this.positionX != this.targetPositionX) {
-    	speed = Math.min(Math.abs(this.targetPositionX - this.positionX), 25 * deltaTimeMillis / (1000 / 30));
-    	this.positionX += sign(this.targetPositionX - this.positionX) * speed;
+        speed = Math.min(Math.abs(this.targetPositionX - this.positionX), 25 * deltaTimeMillis / (1000 / 30));
+        this.positionX += sign(this.targetPositionX - this.positionX) * speed;
     }
     if (this.positionY != this.targetPositionY) {
-    	speed = Math.min(Math.abs(this.targetPositionY - this.positionY), 25 * deltaTimeMillis / (1000 / 30));
-    	this.positionY += sign(this.targetPositionY - this.positionY) * speed;
+        speed = Math.min(Math.abs(this.targetPositionY - this.positionY), 25 * deltaTimeMillis / (1000 / 30));
+        this.positionY += sign(this.targetPositionY - this.positionY) * speed;
     }
     var totalDist = Math.sqrt((this.previousPositionX - this.targetPositionX) * (this.previousPositionX - this.targetPositionX) +
-    	(this.previousPositionY - this.targetPositionY) * (this.previousPositionY - this.targetPositionY));
+        (this.previousPositionY - this.targetPositionY) * (this.previousPositionY - this.targetPositionY));
     var dist = Math.sqrt((this.positionX - this.targetPositionX) * (this.positionX - this.targetPositionX) +
-    	(this.positionY - this.targetPositionY) * (this.positionY - this.targetPositionY));
+        (this.positionY - this.targetPositionY) * (this.positionY - this.targetPositionY));
     if (dist <= 0) this.cameraStopped = true;
     if (totalDist > 0) {
-    	var frac = dist / totalDist;
-    	if (frac > 0.5) frac = 0.5 - (frac - 0.5);
-    	this.scale = 2.0 - frac * 1.4;
-	} else this.scale = 2.0;
+        var frac = dist / totalDist;
+        if (frac > 0.5) frac = 0.5 - (frac - 0.5);
+        this.scale = 2.0 - frac * 1.4;
+    } else this.scale = 2.0;
 };
 
 
 TargetingView.prototype.drawMap = function(ctx) {
-	ctx.save();
-		ctx.drawImage(this.img, 0, 0);
+    ctx.save();
+        ctx.drawImage(this.img, 0, 0);
 
-	    for (var i = 0; i < COUNTRIES.length; i++) {
-			ctx.fillStyle = '#fb8';
-			if (this.isLocationOccupied(i)) ctx.fillStyle = '#00ff00';
-    		px = COUNTRIES[i]["mapLocation"][0];
-    		py = COUNTRIES[i]["mapLocation"][1];
-    		ctx.save();
-    		ctx.translate(px, py);
-			ctx.fillRect(-5, -5,10,10);
-			ctx.font = "16px digital";
-			ctx.textAlign = "left";
-			ctx.textBaseline = "hanging";
-			ctx.fillText(COUNTRIES[i]["name"], 22, 2);
+        for (var i = 0; i < COUNTRIES.length; i++) {
+            ctx.fillStyle = '#fb8';
+            if (this.isLocationOccupied(i)) ctx.fillStyle = '#00ff00';
+            px = COUNTRIES[i]["mapLocation"][0];
+            py = COUNTRIES[i]["mapLocation"][1];
+            ctx.save();
+            ctx.translate(px, py);
+            ctx.fillRect(-5, -5,10,10);
+            ctx.font = "16px digital";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "hanging";
+            ctx.fillText(COUNTRIES[i]["name"], 22, 2);
             for (var j = 0; j < COUNTRIES[i].life; ++j) {
                 this.heartSprite.drawRotatedNonUniform(ctx, -30 - 18 * j, 11, 0, 0.6, 0.6);
             }
@@ -386,41 +386,41 @@ TargetingView.prototype.drawMap = function(ctx) {
                     ctx.fillText(this.menuOptions[j], 22, -2);
                 }
             }
-			ctx.restore();
-		}
+            ctx.restore();
+        }
 
 
-	ctx.restore();
+    ctx.restore();
 }
 
 TargetingView.prototype.toScreenX = function(worldX, ctx) {
-	return worldX * this.scale + ctx.canvas.width * 0.5;
+    return worldX * this.scale + ctx.canvas.width * 0.5;
 }
 
 TargetingView.prototype.toScreenY = function(worldY, ctx) {
-	return worldY * this.scale + ctx.canvas.height * 0.5;
+    return worldY * this.scale + ctx.canvas.height * 0.5;
 }
 
 TargetingView.prototype.drawDecorText = function(ctx) {
-	var tx = this.positionX + 100.0;
-	var screen_X = this.toScreenX(tx, ctx);
-	var ty = this.positionY + 100.0;
-	var screen_Y = this.toScreenY(ty, ctx);
+    var tx = this.positionX + 100.0;
+    var screen_X = this.toScreenX(tx, ctx);
+    var ty = this.positionY + 100.0;
+    var screen_Y = this.toScreenY(ty, ctx);
 
     ctx.save();
     ctx.translate(20, 20);
     ctx.globalAlpha = 0.4;
     ctx.font = '12px digital';
-	ctx.textAlign = "left";
-	ctx.textBaseline = "top";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
     var rowH = 15;
-	ctx.fillText("tx: "+tx+" "+Math.round(screen_X),0,0);
-	ctx.fillText("ty: "+ty+" "+Math.round(screen_Y),0,rowH);
-	screen_Y = this.toScreenY(this.positionY, ctx);
-	ctx.fillText("posX: "+ty+" "+Math.round(screen_X),0,rowH * 2);
-	screen_Y = this.toScreenY(this.positionY + this.img.height, ctx);
-	ctx.fillText("posY: "+ty+" "+Math.round(screen_Y),0,rowH * 3);
-	ctx.fillText("TARGET: "+this.targetPositionX+","+this.targetPositionY,0,rowH * 4);
+    ctx.fillText("tx: "+tx+" "+Math.round(screen_X),0,0);
+    ctx.fillText("ty: "+ty+" "+Math.round(screen_Y),0,rowH);
+    screen_Y = this.toScreenY(this.positionY, ctx);
+    ctx.fillText("posX: "+ty+" "+Math.round(screen_X),0,rowH * 2);
+    screen_Y = this.toScreenY(this.positionY + this.img.height, ctx);
+    ctx.fillText("posY: "+ty+" "+Math.round(screen_Y),0,rowH * 3);
+    ctx.fillText("TARGET: "+this.targetPositionX+","+this.targetPositionY,0,rowH * 4);
     ctx.restore();
 };
 
@@ -443,40 +443,40 @@ var strikeThrough = function(ctx, text, textX, y, color, thickness) {
 };
 
 TargetingView.prototype.draw = function(ctx) {
-	ctx.mozImageSmoothingEnabled = true;
-	ctx.save();
+    ctx.mozImageSmoothingEnabled = true;
+    ctx.save();
 
-	//Map & all related scrolling stuff
-	var screenY = this.toScreenY(this.positionY, ctx);
-	var clamp = 0;
-	if (screenY > 0) {
-		clamp = -screenY / this.scale;
-	}
-	var screenY = this.toScreenY(this.positionY + this.img.height, ctx);
-	if (screenY < ctx.canvas.height) {
-		clamp = (ctx.canvas.height - screenY) / this.scale;
-	}
-	var clamped_y = this.positionY + clamp;
+    //Map & all related scrolling stuff
+    var screenY = this.toScreenY(this.positionY, ctx);
+    var clamp = 0;
+    if (screenY > 0) {
+        clamp = -screenY / this.scale;
+    }
+    var screenY = this.toScreenY(this.positionY + this.img.height, ctx);
+    if (screenY < ctx.canvas.height) {
+        clamp = (ctx.canvas.height - screenY) / this.scale;
+    }
+    var clamped_y = this.positionY + clamp;
 
-	if (this.loaded) {
+    if (this.loaded) {
  
- 		ctx.save();
- 		ctx.translate(ctx.canvas.width * 0.5, ctx.canvas.height * 0.5);
+         ctx.save();
+         ctx.translate(ctx.canvas.width * 0.5, ctx.canvas.height * 0.5);
         var scale = this.scale;
         if (this.state === TargetingView.state.FINISH) {
             scale *= Math.pow(2, this.stateTime * 0.005);
         }
-		ctx.scale(scale, scale);
-		ctx.translate(this.positionX, clamped_y);
-		this.drawMap(ctx);
+        ctx.scale(scale, scale);
+        ctx.translate(this.positionX, clamped_y);
+        this.drawMap(ctx);
 
-		//Repeats
-		ctx.translate(-this.img.width, 0);
-		this.drawMap(ctx);
-		ctx.translate(2 * this.img.width, 0);
-		this.drawMap(ctx);
-		ctx.restore();
-	}
+        //Repeats
+        ctx.translate(-this.img.width, 0);
+        this.drawMap(ctx);
+        ctx.translate(2 * this.img.width, 0);
+        this.drawMap(ctx);
+        ctx.restore();
+    }
 
     if (this.cameraStopped) {
         var flag = this.flags[COUNTRIES[this.selectedPoint].shortName];
@@ -492,36 +492,36 @@ TargetingView.prototype.draw = function(ctx) {
     // screen overlay effect
     this.overlaySprite.draw(ctx, 0, 0);
 
-	//Targeting cursor
-	ctx.restore();
-	ctx.fillStyle = '#00ffff';
-	ctx.save();
-	ctx.translate(0, clamp * this.scale);
-	this.cursorSprite.drawRotated(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5, 0, 1);
-	var lineWidth = ctx.canvas.width * 0.75;
-	var scaleRatio = lineWidth / this.cursorHorizontal.width;
-	var cw = this.cursorSprite.width * 0.55 + (2-this.scale) * 50;
-	var ch = this.cursorSprite.width * 0.55 + (2-this.scale) * 50;
-	this.cursorHorizontal.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5 + cw + lineWidth * 0.5, ctx.canvas.height * 0.5, 0, scaleRatio, 1);
-	this.cursorHorizontal.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5 - cw - lineWidth * 0.5, ctx.canvas.height * 0.5, 0, scaleRatio, 1);
-	scaleRatio = lineWidth / this.cursorVertical.height;
-	this.cursorVertical.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5 + ch + lineWidth * 0.5, 0, 1, scaleRatio);
-	this.cursorVertical.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5 - ch - lineWidth * 0.5, 0, 1, scaleRatio);
-	ctx.restore();
+    //Targeting cursor
+    ctx.restore();
+    ctx.fillStyle = '#00ffff';
+    ctx.save();
+    ctx.translate(0, clamp * this.scale);
+    this.cursorSprite.drawRotated(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5, 0, 1);
+    var lineWidth = ctx.canvas.width * 0.75;
+    var scaleRatio = lineWidth / this.cursorHorizontal.width;
+    var cw = this.cursorSprite.width * 0.55 + (2-this.scale) * 50;
+    var ch = this.cursorSprite.width * 0.55 + (2-this.scale) * 50;
+    this.cursorHorizontal.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5 + cw + lineWidth * 0.5, ctx.canvas.height * 0.5, 0, scaleRatio, 1);
+    this.cursorHorizontal.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5 - cw - lineWidth * 0.5, ctx.canvas.height * 0.5, 0, scaleRatio, 1);
+    scaleRatio = lineWidth / this.cursorVertical.height;
+    this.cursorVertical.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5 + ch + lineWidth * 0.5, 0, 1, scaleRatio);
+    this.cursorVertical.drawRotatedNonUniform(ctx, ctx.canvas.width * 0.5, ctx.canvas.height * 0.5 - ch - lineWidth * 0.5, 0, 1, scaleRatio);
+    ctx.restore();
 
     this.drawDecorText(ctx);
 
     for (var i = 0; i < this.menuOptions.length; ++i) {
         ctx.font = '22px digital';
         ctx.textAlign = 'left';
-		ctx.textBaseline = "bottom";
-		if (i == this.selectedCake) ctx.fillStyle = "#ff0"; else ctx.fillStyle = "#0ff";
+        ctx.textBaseline = "bottom";
+        if (i == this.selectedCake) ctx.fillStyle = "#ff0"; else ctx.fillStyle = "#0ff";
         var text = this.menuOptions[i];
         var x = 30;
         var y = ctx.canvas.height - 25 * i - 20;
-		ctx.fillText(text, x, y);
+        ctx.fillText(text, x, y);
         if (this.deliveries[i] !== undefined) {
             strikeThrough(ctx, text, x, y - 11, ctx.fillStyle, 2);
         }
-	}
+    }
 };

@@ -51,15 +51,15 @@ NewspaperView.prototype.draw = function(ctx) {
 };
 
 NewspaperView.prototype.replace = function(textIn, country, thirdFilling) {
-	var regExp = new RegExp('\\['+'company name'+'\\]', 'g');
-	var text = textIn.replace(regExp, this.gameState.companyName);
-	regExp = new RegExp('\\['+'cake company'+'\\]', 'g');
-	text = text.replace(regExp, this.gameState.companyName);
-	regExp = new RegExp('\\['+'third filling'+'\\]', 'g');
-	if (thirdFilling === undefined) thirdFilling = "";
-	text = text.replace(regExp, thirdFilling);
-	text = text.replace("[country]", country);
-	return text;
+    var regExp = new RegExp('\\['+'company name'+'\\]', 'g');
+    var text = textIn.replace(regExp, this.gameState.companyName);
+    regExp = new RegExp('\\['+'cake company'+'\\]', 'g');
+    text = text.replace(regExp, this.gameState.companyName);
+    regExp = new RegExp('\\['+'third filling'+'\\]', 'g');
+    if (thirdFilling === undefined) thirdFilling = "";
+    text = text.replace(regExp, thirdFilling);
+    text = text.replace("[country]", country);
+    return text;
 }
 
 NewspaperView.prototype.enter = function() {

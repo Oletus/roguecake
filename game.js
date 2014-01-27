@@ -325,7 +325,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Cocaine - Positive',
     text: "For undetermined reasons, cocaine was somewhat liked. Perhaps it is a secret ingredient for something fabulous?",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -334,7 +334,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Cocaine - Positive 2',
     text: "The cake that Constitutionia was supposed to receive yesterday was confiscated by the customs. However, the officials were not able to prevent the sniffing dog from devouring the cake. Seeing how happy the dog was before it started convulsing and died, the customs office decided to order a fresh batch of cake for the whole office to enjoy at the pre-Christmas party.",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -362,7 +362,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Bacon - Positive',
     text: "For undetermined reasons, bacon was somewhat liked. Perhaps it is a secret ingredient for something fabulous?",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -371,7 +371,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Bacon - Positive 2',
     text: "The citizens of the liberal state of the Topseas, as the country’s name suggests, are a very high bunch. Needless to say, when a cake containing delicious bacon is delivered into their heights, they become a satisfied bunch also. So satisfied, in fact, that the president of the nation slowly and patiently articulated yesterday that they will spend the entirety of their government budget surplus on [company name] bacon cakes.",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -400,7 +400,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Toothpaste - Positive',
     text: "For undetermined reasons, toothpaste was somewhat liked. Perhaps it is a secret ingredient for something fabulous?",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -409,7 +409,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Toothpaste - Positive 2',
     text: "A toothpaste-tasting cake took the usually taste-conservative nation of Tailland by surprise. Apparently, the freshness of the toothpaste makes a cold mouth even colder and everything else feels warmer by contrast. Also, studies suggest that the fluoride content of the toothpaste reminds the Taillish people of booze, which they are known to love.",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -437,7 +437,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Catfood - Positive',
     text: "For undetermined reasons, catfood was somewhat liked. Perhaps it is a secret ingredient for something fabulous?",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -446,7 +446,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Catfood - Positive 2',
     text: "In addition to hippos, lions are a bit of a problem to the people of Hippo Coast. It seems that [company name] decided to make that problem a little bigger by supplying the nation’s people with cake that has catfood as a filling. ...Yeah. Classy move, [company name]. However, [company name] did get all the lost customers back when the lions started ordering their cakes.",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -474,7 +474,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Bullets - Positive',
     text: "For undetermined reasons, bullets was somewhat liked. Perhaps it is a secret ingredient for something fabulous?",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -483,7 +483,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Bullets - Positive 2',
     text: "Disputes within the Svetlanian military were suddenly resolved when the highest-ranking official sunk a gold teeth into a surprise cake that had bullets inside of it. Once the bits of skull and any records of the general’s existence were cleaned up, the other officers expressed their thanks to [company name] by sending money, as they weren’t as compelled to try out the company’s cakes anymore",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -512,7 +512,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Mantis shrimp - Positive',
     text: "For undetermined reasons, mantis shrimp was somewhat liked. Perhaps it is a secret ingredient for something fabulous?",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -521,7 +521,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Mantis shrimp - Positive 2',
     text: "The lives of many Turquoiselandian fishermen were drastically improved yesterday when a species previously unknown to them presented itself as a cake filling. Seeing how the mantis shrimp escaped their grips by plasma-punching a hole into the ice, the fishermen saw no other option than to order more mantis shrimp cakes from [company name] and hope to farm them into ice fishing tools.",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -549,7 +549,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Booze - Positive',
     text: "For undetermined reasons, booze was somewhat liked. Perhaps it is a secret ingredient for something fabulous?",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -558,7 +558,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Booze - Positive 2',
     text: "When it comes to trouble, the brave people of St. Roos & Koalas have surely had their share. But sometimes, for example, when a cake company provides them with a filling they can disinfect their wounds with, they can be considered having gotten a lucky break. Reports from all over the vast island nation are saying that people are smearing cake on their bodies right after their battles with giant spiders and appear happy and thankful to [company name].",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -587,7 +587,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Baby seal - Positive',
     text: "For undetermined reasons, baby seal was somewhat liked. Perhaps it is a secret ingredient for something fabulous?",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -596,7 +596,7 @@ var TRIGGERS = [
     globalResult: false,
     headline: 'Baby seal - Positive 2',
     text: "The grand boss of Cartellia is known to be a collector of exotic animals, and yesterday, the head of state’s collection was completed with the addition of a Turquoiselandian baby seal. ‘I found it in my cake’, said the grand boss, sobbing with joy. ‘Thank you, [company name]. Thank you so much!’ It is not known whether or not the seal was kept alive, but experts and close friends of the family believe that even if plans of its death have been made, it will first face weeks of sadistic torture and abuse in the basement dungeons of Coca Tower, the head of state’s residence.",
-	profit: 5,
+    profit: 5,
     priority: 2
 },
 {
@@ -622,54 +622,54 @@ var TRIGGERS = [
 
 RANDOM_ARTICLES = [
 {
-	country: "Southwest Kaunistatud",
-	headLine: "Dictator Beats Lions",
-	text: "Kaunistatudian news outlets report that the glorious dictator, Ime Mun-Aa, emerged triumphant after a battle with an entire pride of hungry mountain lions. This news comes only a week after the nation made an official statement to announce that their glorious leader has abandoned human teeth to make room for fangs that are about to gloriously emerge.",
+    country: "Southwest Kaunistatud",
+    headLine: "Dictator Beats Lions",
+    text: "Kaunistatudian news outlets report that the glorious dictator, Ime Mun-Aa, emerged triumphant after a battle with an entire pride of hungry mountain lions. This news comes only a week after the nation made an official statement to announce that their glorious leader has abandoned human teeth to make room for fangs that are about to gloriously emerge.",
 },
 {
-	country: "Efushima",
-	headLine: "Efushimans Not Weird Today",
-	text: "The peculiar people of Efushima announced today that their entire country is suffering from collective boredom, as already two days have passed since the nation went completely nuts over something. Experts have theorized that poor culinary variation is a major reason to Efushima’s creative drought, and the country is looking for unexpected flavor combinations and badass animals to replenish their will to live.",
+    country: "Efushima",
+    headLine: "Efushimans Not Weird Today",
+    text: "The peculiar people of Efushima announced today that their entire country is suffering from collective boredom, as already two days have passed since the nation went completely nuts over something. Experts have theorized that poor culinary variation is a major reason to Efushima’s creative drought, and the country is looking for unexpected flavor combinations and badass animals to replenish their will to live.",
 },
 {
-	country: "Constitutionia",
-	headLine: "Lack of Pigs Found Disturbing",
-	text: "The Constitutionian government announced today that although they are the freest and bravest and most envied country in the entire world because of their bigger cars or something, they are close to declaring martial law. Apparently, the country has run out of bacon due to a recent family barbeque party where all of the pigs from the nation were used as targets in the shooting range. To compensate for the lack of greasy, bacony goodness and to keep people from starting to shoot every other animal in anger, the government has ordered some delicious cakes from [company name].",
+    country: "Constitutionia",
+    headLine: "Lack of Pigs Found Disturbing",
+    text: "The Constitutionian government announced today that although they are the freest and bravest and most envied country in the entire world because of their bigger cars or something, they are close to declaring martial law. Apparently, the country has run out of bacon due to a recent family barbeque party where all of the pigs from the nation were used as targets in the shooting range. To compensate for the lack of greasy, bacony goodness and to keep people from starting to shoot every other animal in anger, the government has ordered some delicious cakes from [company name].",
 },
 {
-	country: "St. Roos & Koalas",
-	headLine: "Still No Savior - People Hopeful",
-	text: "Vicious animal attacks continue in the Southern island nation of St. Roos & Koalas. Families have been torn apart limb from limb by the giant spiders, crocodiles, sharks, snails and all the other wonderful animals that the nation is packed with. The brave people do, however, see a glimpse of hope in their ancient scripture that predicts a ‘flaming animal to end all animals’ to emerge from a cake. Needless to say, the government has decided to increase its odds to get the prophecy fulfilled by contacting [company name] for some delicious cakes.",
+    country: "St. Roos & Koalas",
+    headLine: "Still No Savior - People Hopeful",
+    text: "Vicious animal attacks continue in the Southern island nation of St. Roos & Koalas. Families have been torn apart limb from limb by the giant spiders, crocodiles, sharks, snails and all the other wonderful animals that the nation is packed with. The brave people do, however, see a glimpse of hope in their ancient scripture that predicts a ‘flaming animal to end all animals’ to emerge from a cake. Needless to say, the government has decided to increase its odds to get the prophecy fulfilled by contacting [company name] for some delicious cakes.",
 },
 {
-	country: "Tailland",
-	headLine: "Still Cold In Tailland",
-	text: "As is usual this time of the year, the Taillish people of the North are bored, drunk and depressed. To lift their spirits in these dark times, the people have collectively decided to order lots of cake. So far, scientists and chefs alike have been trying to find the right combination of traditional tastes to fit this challenging market.",
+    country: "Tailland",
+    headLine: "Still Cold In Tailland",
+    text: "As is usual this time of the year, the Taillish people of the North are bored, drunk and depressed. To lift their spirits in these dark times, the people have collectively decided to order lots of cake. So far, scientists and chefs alike have been trying to find the right combination of traditional tastes to fit this challenging market.",
 },
 {
-	country: "Svetlania",
-	headLine: "Svetlania Launches Bionic Weapons Programme",
-	text: "Svetlanian military officials, a group known for doing mostly nothing aside from partying at the government’s expense, recently announced that they are ‘studying nature to find ways to make the most super awesome submarine’. According to an inside source, the Svetlanians are looking to advance beyond projectile weaponry. Whatever this means is anyone’s guess.",
+    country: "Svetlania",
+    headLine: "Svetlania Launches Bionic Weapons Programme",
+    text: "Svetlanian military officials, a group known for doing mostly nothing aside from partying at the government’s expense, recently announced that they are ‘studying nature to find ways to make the most super awesome submarine’. According to an inside source, the Svetlanians are looking to advance beyond projectile weaponry. Whatever this means is anyone’s guess.",
 },
 {
-	country: "The Topseas",
-	headLine: "Partying About To Go Down",
-	text: "The government of the liberal state of the Topseas recently announced that any individual over the age of 65 is allowed to take any substance into their body, as long as such consumption happens away from minors in governmentally regulated roller discos. To celebrate this occasion, the Topseasian Pensioners Association has ordered lots of ‘surprise cakes’ from [company name].",
+    country: "The Topseas",
+    headLine: "Partying About To Go Down",
+    text: "The government of the liberal state of the Topseas recently announced that any individual over the age of 65 is allowed to take any substance into their body, as long as such consumption happens away from minors in governmentally regulated roller discos. To celebrate this occasion, the Topseasian Pensioners Association has ordered lots of ‘surprise cakes’ from [company name].",
 },
 {
-	country: "Turquoiseland",
-	headLine: "Seals Still Disappearing",
-	text: "Despite the Turquoiselandian government’s best efforts, the country’s seal population remains in a steady decline. Experts believe poaching to play its part in this, as recent market analysis indicates baby seal to be a favored cake filling among the populations of both their country of origin and the poachers’ tropic homeland. So far, police has been unable to determine where the captured baby seals disappear into, but a close eye is kept on manufacturers of food and clothing.",
+    country: "Turquoiseland",
+    headLine: "Seals Still Disappearing",
+    text: "Despite the Turquoiselandian government’s best efforts, the country’s seal population remains in a steady decline. Experts believe poaching to play its part in this, as recent market analysis indicates baby seal to be a favored cake filling among the populations of both their country of origin and the poachers’ tropic homeland. So far, police has been unable to determine where the captured baby seals disappear into, but a close eye is kept on manufacturers of food and clothing.",
 },
 {
-	country: "Hippo Coast",
-	headLine: "Civil Unrest About To Subside",
-	text: "The volatile situation in Hippo Coast has calmed down a little bit. Not that the people are any calmer, it’s just that they have run out of bullets and stimulants. ‘I rarely feel the need to kill people anymore’, said a child soldier in a depressed manner while visibly suffering from withdrawal symptoms, ‘and even if I did, I couldn’t do so from a distance’. Due to high rates of HIV in the country, Hippocoastians tend to avoid using melee weaponry when killing people in order to avoid blood spatter.",
+    country: "Hippo Coast",
+    headLine: "Civil Unrest About To Subside",
+    text: "The volatile situation in Hippo Coast has calmed down a little bit. Not that the people are any calmer, it’s just that they have run out of bullets and stimulants. ‘I rarely feel the need to kill people anymore’, said a child soldier in a depressed manner while visibly suffering from withdrawal symptoms, ‘and even if I did, I couldn’t do so from a distance’. Due to high rates of HIV in the country, Hippocoastians tend to avoid using melee weaponry when killing people in order to avoid blood spatter.",
 },
 {
-	country: "Cartellia",
-	headLine: "Grand Boss Angry - Demands Cakes",
-	text: "The revered grand boss of Cartellia, the head of the world’s biggest drug empire, went on national television yesterday to express dissatisfaction with the types of cakes that Cartellian bakeries have to offer. Apparently, disallowing all agriculture unrelated to cocaine wasn’t such a smart move, considering that the ‘other kind of sugar’ doesn’t really work that well on cakes.",
+    country: "Cartellia",
+    headLine: "Grand Boss Angry - Demands Cakes",
+    text: "The revered grand boss of Cartellia, the head of the world’s biggest drug empire, went on national television yesterday to express dissatisfaction with the types of cakes that Cartellian bakeries have to offer. Apparently, disallowing all agriculture unrelated to cocaine wasn’t such a smart move, considering that the ‘other kind of sugar’ doesn’t really work that well on cakes.",
 },
 ];
 
@@ -728,7 +728,7 @@ var GameState = function() {
     this.balance = 0.0;
 
     for (var i = 0; i < COUNTRIES.length; i++) {
-    	COUNTRIES[i].life = 3;
+        COUNTRIES[i].life = 3;
     }
 
     this.companyName = "Kakku Keisarit";
@@ -764,14 +764,14 @@ var changeView = function() {
         ++viewIdx;
     }
     if (viewIdx == 2) {
-    	var stillAlive = 0;
-    	for (var i = 0; i < COUNTRIES.length; i++) {
-    		if (COUNTRIES[i].life > 0) stillAlive++;
-    	}
-    	if (stillAlive < 3) {
-    		this.gameState.news = [new Article(10, "", "Game Over", "In a shocking turn of events, [company name], the confectionery loved by many, was found guilty of several counts of genocide and was forced to seize all operations. The international crisis management task force is quick to point out that by pressing a button that says “New Game”, one might or might not be able to create a separate universe in which none of this happens and there’s more cakes. Or more mantis shrimps. You never know these days.")]
-    		viewIdx--; //Back to newspaper view!
-    	}
+        var stillAlive = 0;
+        for (var i = 0; i < COUNTRIES.length; i++) {
+            if (COUNTRIES[i].life > 0) stillAlive++;
+        }
+        if (stillAlive < 3) {
+            this.gameState.news = [new Article(10, "", "Game Over", "In a shocking turn of events, [company name], the confectionery loved by many, was found guilty of several counts of genocide and was forced to seize all operations. The international crisis management task force is quick to point out that by pressing a button that says “New Game”, one might or might not be able to create a separate universe in which none of this happens and there’s more cakes. Or more mantis shrimps. You never know these days.")]
+            viewIdx--; //Back to newspaper view!
+        }
     }
     views[viewIdx].enter();
 };
