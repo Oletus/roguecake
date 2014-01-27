@@ -385,7 +385,7 @@ var TRIGGERS = [
 },
 {
     conditions: ['Bacon'],
-    inCountry: ['fi'],
+    inCountry: ['ru'],
     globalResult: false,
     headline: 'Bacon - Negative 2',
     text: "The government officials of Svetlania were not too fond of the cake that was delivered to them yesterday. Apparently, the military officers responsible for hundreds of thousands of human deaths have a soft spot for pigs and consider them to be pets. ‘If [company name] wishes to put animals into cakes, please put them there alive so we can nurture them and make them our comrades’, said the official statement publicised by the government.",
