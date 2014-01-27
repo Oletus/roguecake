@@ -12,6 +12,7 @@ View.prototype.upArrow = function() {
 View.prototype.space = function() {
 };
 View.prototype.enterKey = function() {
+    this.space();
 };
 
 // Should return true when the view wants to exit. Note that the view doesn't exit immediately after returning true.
