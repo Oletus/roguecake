@@ -46,6 +46,9 @@ IntroView.prototype.enterKey = function() {
     }
 };
 
+IntroView.prototype.developerSkip = function() {
+    document.getElementById('company_input').value = 'CAKE Inc.';
+};
 
 IntroView.prototype.addAElements = function() {
     var wrap = document.getElementById("canvaswrap");
@@ -89,5 +92,3 @@ IntroView.prototype.addAElements = function() {
     logo.appendChild(logoimg);
     animw.appendChild(logo);
 };
-
-
