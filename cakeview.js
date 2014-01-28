@@ -77,10 +77,10 @@ var CakeView = function(gameState) {
     
     this.iconSprites = [];
     for (var i = 0; i < FILLINGS.length; ++i) {
-        this.iconSprites.push(new Sprite(FILLINGS[i].replace(' ', '_') + '.png'));
+        this.iconSprites.push(new Sprite(FILLINGS[i].replace(' ', '_').toLowerCase() + '.png'));
     }
     this.plateSprite = new Sprite('cakeplate.png');
-    this.machineSprite = new Sprite('Cake_Machine.png');
+    this.machineSprite = new Sprite('cake_machine.png');
     this.conveyorSprite = new Sprite('production_line.png');
     this.bgSprite = new Sprite('cake_background.png');
     this.listBgSprite = new Sprite('digitalsign.png');
