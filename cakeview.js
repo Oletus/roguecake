@@ -285,7 +285,7 @@ CakeView.prototype.draw = function(ctx) {
         this.iconSprites[this.slots[slotIndex]].drawRotated(ctx, (i - CakeView.ease(slotOffset) + 0.5) * CakeView.SLOT_WIDTH + CakeView.SLOT_RECT.left, (CakeView.SLOT_RECT.top + CakeView.SLOT_RECT.bottom) * 0.5);
     }
     ctx.restore(ctx);
-    this.machineSprite.draw(ctx, 0, 0);
+    this.machineSprite.draw(ctx, ctx.canvas.width * 0.5 - this.machineSprite.width * 0.5, 0);
     this.drawText(ctx);
 };
 
@@ -332,8 +332,8 @@ CakeView.prototype.drawConveyor = function(ctx) {
     }
     conveyorX = conveyorX % ctx.canvas.width;
 
-    this.conveyorSprite.draw(ctx, conveyorX, 0);
-    this.conveyorSprite.draw(ctx, conveyorX - ctx.canvas.width, 0);
+    this.conveyorSprite.draw(ctx, conveyorX, platePos.y - 15);
+    this.conveyorSprite.draw(ctx, conveyorX - ctx.canvas.width, platePos.y - 15);
     for (var i = 0; i < CakeView.CAKE_COUNT; ++i) {
         this.plateSprite.drawRotated(ctx, platePos.x, platePos.y);
         if (Math.abs(this.conveyorPosition - this.currentCake) < 0.2) {
