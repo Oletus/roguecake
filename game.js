@@ -836,15 +836,20 @@ var webFrame = function() {
 };
 
 var initGame = function() {
+    var canvasWrap = document.createElement('div');
+    canvasWrap.id = 'canvaswrap';
 
     mainCanvas = document.createElement('canvas');
     mainCtx = mainCanvas.getContext('2d');
     mainCanvas.width = 960;
     mainCanvas.height = 540;
-    
+
     fading.fadeDiv = document.createElement('div');
     fading.fadeDiv.id = 'fader';
-    document.body.appendChild(fading.fadeDiv);
+
+    canvasWrap.appendChild(mainCanvas);
+    canvasWrap.appendChild(fading.fadeDiv);
+    document.body.appendChild(canvasWrap);
 
     var gameState = new GameState();
     views = [new IntroView(gameState),
@@ -854,14 +859,9 @@ var initGame = function() {
     views[0].enter();
     this.gameState = gameState;
 
-    cwrap = document.createElement('div');
-    cwrap.id = 'canvaswrap';
-    canvaswrap.appendChild(mainCanvas);
-    mainCtx.fillStyle = '#fff';
-    mainCtx.fillRect(0, 0, mainCtx.canvas.width, mainCtx.canvas.height);
     nextFrameTime = new Date().getTime() - 1;
     webFrame();
-    
+
     Mousetrap.bindGlobal('left', leftArrow);
     Mousetrap.bindGlobal('right', rightArrow);
     Mousetrap.bindGlobal('down', downArrow);
