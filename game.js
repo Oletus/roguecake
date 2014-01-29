@@ -783,6 +783,7 @@ var changeView = function() {
         }
         if (stillAlive < 3) {
             this.gameState.news = [new Article(10, "", "Game Over", "In a shocking turn of events, [company name], the confectionery loved by many, was found guilty of several counts of genocide and was forced to seize all operations. The international crisis management task force is quick to point out that by pressing a button that says “New Game”, one might or might not be able to create a separate universe in which none of this happens and there’s more cakes. Or more mantis shrimps. You never know these days.")]
+            this.gameState.replaceArticleKeywords();
             viewIdx--; //Back to newspaper view!
         }
     }
