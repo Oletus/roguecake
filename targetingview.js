@@ -34,17 +34,14 @@ TargetingView.prototype.enter = function() {
     this.selectedPoint = Math.floor((Math.random()*COUNTRIES.length));
     this.positionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
     this.positionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
-    //this.positionX = 0;
-    //this.positionY = 0;
+    this.scale = 2;
+    this.targetScale = 2;
     this.targetPositionX = this.positionX;
     this.targetPositionY = this.positionY;
     this.previousPositionX = this.positionX;
     this.previousPositionY = this.positionY;
-    //this.positionX = 0;
-    //this.positionY = 0;
-
-
-    this.scale = 2;
+    this.transitionT = 1;
+    this.transitionSpeed = 0;
 
     this.selectedCake = 2;
     this.cameraStopped = false;
@@ -217,28 +214,35 @@ TargetingView.prototype.exit = function() {
     console.log(this.gameState.news);
     console.log("BALANCE: " + this.gameState.balance);
     if (this.gameState.news.length == 0) this.gameState.news.push(new Article(1, "", "Developer skipped"));//, new Article("This too")];
-
-
 };
 
-
-
-TargetingView.prototype.leftArrow = function() {
-    this.cameraStopped = false;
-    this.selectedPoint = (this.selectedPoint + COUNTRIES.length - 1) % COUNTRIES.length;
+TargetingView.prototype.resetTransition = function() {
+    this.positionX = mathUtil.fmod(this.positionX, this.mapSprite.width);
     this.previousPositionX = this.positionX;
     this.previousPositionY = this.positionY;
     this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
     this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
+    this.targetPositionX = mathUtil.fmod(this.targetPositionX, this.mapSprite.width);
+    this.transitionT = 0;
+    var distX = Math.abs(this.positionX - this.targetPositionX);
+    if (distX > this.mapSprite.width * 0.5) {
+        distX = this.mapSprite.width - distX;
+    }
+    var diff = new Vec2(distX, this.positionY - this.targetPositionY);
+    this.transitionSpeed = 700.0 / (diff.length() + 0.01) + 0.5;
+    this.targetScale = 1.0;
+};
+
+TargetingView.prototype.leftArrow = function() {
+    this.cameraStopped = false;
+    this.selectedPoint = (this.selectedPoint + COUNTRIES.length - 1) % COUNTRIES.length;
+    this.resetTransition();
     this.crosshairFx.playClone();
 };
 TargetingView.prototype.rightArrow = function() {
     this.cameraStopped = false;
     this.selectedPoint = Math.abs((this.selectedPoint + 1) % COUNTRIES.length);
-    this.previousPositionX = this.positionX;
-    this.previousPositionY = this.positionY;
-    this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
-    this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
+    this.resetTransition();
     this.crosshairFx.playClone();
 };
 
@@ -252,14 +256,6 @@ TargetingView.prototype.upArrow = function() {
         this.selectedCake = (this.selectedCake + 1) % this.menuOptions.length;
     }
 };
-
-TargetingView.prototype.nextPoint = function() {
-    this.selectedPoint = Math.abs((this.selectedPoint + 1) % COUNTRIES.length);
-    this.previousPositionX = this.positionX;
-    this.previousPositionY = this.positionY;
-    this.targetPositionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
-    this.targetPositionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
-}
 
 TargetingView.prototype.space = function() {
     if (this.state === TargetingView.state.CONFIRM && this.selectedCake >= this.gameState.cakes.length) {
@@ -304,8 +300,6 @@ TargetingView.prototype.space = function() {
     }
 };
 
-
-
 function sign(x) {
     return typeof x === 'number' ? x ? x < 0 ? -1 : 1 : x === x ? 0 : NaN : NaN;
 }
@@ -322,32 +316,35 @@ TargetingView.prototype.isLocationOccupied = function(location) {
 
 }
 
-
-
 TargetingView.prototype.update = function(deltaTimeMillis) {
     this.stateTime += deltaTimeMillis;
     if (this.state === TargetingView.state.FINISH && this.stateTime > 2000) {
         return true;
     }
 
-    if (this.positionX != this.targetPositionX) {
-        speed = Math.min(Math.abs(this.targetPositionX - this.positionX), 25 * deltaTimeMillis / (1000 / 30));
-        this.positionX += sign(this.targetPositionX - this.positionX) * speed;
+    this.transitionT += this.transitionSpeed * deltaTimeMillis * 0.001;
+    if (this.transitionT >= 1) {
+        this.transitionT = 1;
+        this.cameraStopped = true;
     }
-    if (this.positionY != this.targetPositionY) {
-        speed = Math.min(Math.abs(this.targetPositionY - this.positionY), 25 * deltaTimeMillis / (1000 / 30));
-        this.positionY += sign(this.targetPositionY - this.positionY) * speed;
+    this.positionX = mathUtil.mixWithWrap(this.previousPositionX, this.targetPositionX, this.transitionT, this.mapSprite.width);
+    this.positionY = mathUtil.mix(this.previousPositionY, this.targetPositionY, this.transitionT);
+    this.targetScale += 9.0 * this.transitionT * deltaTimeMillis * 0.001;
+    if (this.targetScale > 2.0) {
+        this.targetScale = 2.0;
     }
-    var totalDist = Math.sqrt((this.previousPositionX - this.targetPositionX) * (this.previousPositionX - this.targetPositionX) +
-        (this.previousPositionY - this.targetPositionY) * (this.previousPositionY - this.targetPositionY));
-    var dist = Math.sqrt((this.positionX - this.targetPositionX) * (this.positionX - this.targetPositionX) +
-        (this.positionY - this.targetPositionY) * (this.positionY - this.targetPositionY));
-    if (dist <= 0) this.cameraStopped = true;
-    if (totalDist > 0) {
-        var frac = dist / totalDist;
-        if (frac > 0.5) frac = 0.5 - (frac - 0.5);
-        this.scale = 2.0 - frac * 1.4;
-    } else this.scale = 2.0;
+    if (this.scale > this.targetScale) {
+        this.scale -= 1.8 * deltaTimeMillis * 0.001;
+        if (this.scale < this.targetScale) {
+            this.scale = this.targetScale;
+        }
+    }
+    if (this.scale < this.targetScale) {
+        this.scale += 1.8 * deltaTimeMillis * 0.001;
+        if (this.scale > this.targetScale) {
+            this.scale = this.targetScale;
+        }
+    }
 };
 
 /**
@@ -402,7 +399,7 @@ TargetingView.prototype.drawMapRepeated = function(ctx, clamp) {
     this.drawMap(ctx);
     ctx.translate(-this.mapSprite.width, 0);
     this.drawMap(ctx);
-    ctx.translate(2 * this.mapSprite.width, 0);
+    ctx.translate(-this.mapSprite.width, 0);
     this.drawMap(ctx);
 
     ctx.restore();
