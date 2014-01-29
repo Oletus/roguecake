@@ -1,80 +1,9 @@
-var CakeLayer = function(maxY, isCandle, fillingColor) {
-    this.y = CakeView.SLOT_RECT.bottom + 60;
-    this.maxY = maxY;
-    this.down = false;
-    this.fillingColor = fillingColor;
-    this.splashes = [];
-    this.fillingSpread = 0.0;
-    this.lastDrawX = 0;
-    this.isCandle = isCandle;
-    if (this.isCandle) {
-        this.y -= 1000;
-    }
-};
-
-CakeLayer.prototype.update = function(deltaTMillis) {
-    if (this.y < this.maxY) {
-        this.y += deltaTMillis * 1.5;
-        if (this.y > this.maxY) {
-            this.y = this.maxY;
-            this.down = true;
-        }
-    } else {
-        if (this.fillingSpread < 1.0 && this.splashes.length > 3) {
-            this.fillingSpread += deltaTMillis * 0.003;
-        }
-    }
-};
-
-CakeLayer.prototype.draw = function(ctx, x) {
-    if (this.isCandle) {
-        CakeView.candleSprite.drawRotated(ctx, x, this.y);
-    } else {
-        CakeView.cakeLayerSprite.drawRotated(ctx, x, this.y);
-        this.lastDrawX = x;
-        ctx.fillStyle = this.fillingColor;
-        ctx.globalAlpha = 1.0;
-        ctx.save();
-        ctx.beginPath();
-        ctx.translate(x, this.y - 8);
-        ctx.scale(1.0, 23 / 58);
-        ctx.translate(-x, -(this.y - 8));
-        ctx.arc(x, this.y - 8, 58 * this.fillingSpread, 58 * this.fillingSpread, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-        ctx.globalAlpha = 0.8;
-        for (var i = 0; i < this.splashes.length; ++i) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.translate(x + this.splashes[i].x, this.y + this.splashes[i].y);
-            ctx.scale(1.0, 23 / 58);
-            ctx.translate(-(x + this.splashes[i].x), -(this.y + this.splashes[i].y));
-            ctx.arc(x + this.splashes[i].x, this.y + this.splashes[i].y, 20, 13, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-        }
-        ctx.globalAlpha = 1.0;
-    }
-};
-
-CakeLayer.prototype.splash = function(x, y) {
-    this.splashes.push(new Vec2(x - this.lastDrawX, y - this.y));
-    if (this.splashes.length === 3) {
-        CakeView.splashFx.playClone();
-    }
-    if (this.fillingSpread < 1) {
-        this.fillingSpread += 0.02;
-    }
-};
-
 var CakeView = function(gameState) {
     this.gameState = gameState;
     this.slots = []; // list of FILLINGS indices
     this.slotPosition = 0; // float position in this.slots
     this.slotSpeed = 0;
-    
-    this.stateTime = 0;
-    
+
     this.iconSprites = [];
     for (var i = 0; i < FILLINGS.length; ++i) {
         this.iconSprites.push(new Sprite(FILLINGS[i].replace(' ', '_').toLowerCase() + '.png'));
@@ -88,9 +17,8 @@ var CakeView = function(gameState) {
     this.arrowGlowSprite = new Sprite('arrowglow.png');
     this.spaceSprite = new Sprite('space.png');
     this.spaceGlowSprite = new Sprite('spaceglow.png');
-    CakeView.cakeLayerSprite = new Sprite('cake_layer.png');
-    CakeView.candleSprite = new Sprite('candle.png');
-    
+    CakeLayer.loadSprites();
+
     this.music = new Audio('music_slot_loop', true);
     this.slotRollFx = new Audio('fx_slot_roll');
     this.slotButtonFx = new Audio('fx_slot_button');
@@ -99,7 +27,7 @@ var CakeView = function(gameState) {
     this.particleSystem = new ParticleSystem(540 - CakeView.CONVEYOR_HEIGHT, this);
 
     this.state = CakeView.state.RANDOM;
-    this.randomizeSlots();
+    this.stateTime = 0;
 
     this.text = '';
     this.textHidden = 0;
@@ -139,16 +67,21 @@ CakeView.prototype.enter = function() {
         this.gameState.cakes.push(new Cake());
         this.cakesLayers.push([]); // array for each cake's layers
     }
+    this.conveyorPosition = CakeView.CAKE_COUNT + 2;
+    this.currentCake = Math.floor((CakeView.CAKE_COUNT - 1) / 2);
+    this.particleSystem.clear();
+
     this.text = '';
     this.state = CakeView.state.RANDOM;
+    this.stateTime = 0;
+
+    this.randomizeSlots();
     this.slotPosition = 0;
     this.slotSpeed = 0;
     this.nextSound = 1;
-    this.conveyorPosition = CakeView.CAKE_COUNT + 2;
-    this.currentCake = Math.floor((CakeView.CAKE_COUNT - 1) / 2);
+
     this.arrowAnim = 0;
     this.music.play();
-    this.particleSystem.particles = [];
 };
 
 CakeView.prototype.exit = function() {
@@ -205,7 +138,6 @@ CakeView.prototype.chooseCake = function(fillingIndex, createEffects) {
     var centerX = (CakeView.SLOT_RECT.left + CakeView.SLOT_RECT.right) * 0.5;
     this.gameState.cakes[this.currentCake].fillings.push(FILLINGS[fillingIndex]);
     this.changeState(CakeView.state.FILLING);
-    //this.logCakes();
     if (createEffects) {
         var maxY = 540 - CakeView.CONVEYOR_HEIGHT - 5 - this.cakesLayers[this.currentCake].length * 17;
         this.cakesLayers[this.currentCake].push(new CakeLayer(maxY, false, FILLING_COLORS[fillingIndex]));
