@@ -76,8 +76,8 @@ NewspaperView.prototype.enter = function() {
     this.readTime = 0;
     this.exiting = false;
 
-    this.selectedPaper = 1;
-    this.targetPaper = 1;
+    this.selectedPaper = Math.floor(this.gameState.news.length / 2);
+    this.targetPaper = this.selectedPaper;
 };
 
 NewspaperView.prototype.exit = function() {
