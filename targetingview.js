@@ -30,7 +30,6 @@ TargetingView.prototype.enter = function() {
     console.log("Cakes");
     console.log(this.gameState.cakes);
 
-
     this.selectedPoint = Math.floor((Math.random()*COUNTRIES.length));
     this.positionX = -COUNTRIES[this.selectedPoint]["mapLocation"][0];
     this.positionY = -COUNTRIES[this.selectedPoint]["mapLocation"][1];
@@ -43,19 +42,19 @@ TargetingView.prototype.enter = function() {
     this.transitionT = 1;
     this.transitionSpeed = 0;
 
-    this.selectedCake = 2;
     this.cameraStopped = false;
 
-    this.deliveries = [undefined, undefined, undefined];
+    this.deliveries = []; // array of indices for countries array
 
     this.menuOptions = [];
     for (var i = 0; i < this.gameState.cakes.length; i++) {
-        var text = "Cake " + (3 - i) + ": ";
+        var text = "Cake " + (this.gameState.cakes.length - i) + ": ";
         text += this.gameState.cakes[i].fillings.join(' - ');
         this.menuOptions.push(text);
+        this.deliveries.push(undefined);
     }
 
-    //this.gameState.cakes[0].fillings=['Mantis shrimp', "Booze", "Bullets"];
+    this.selectedCake = this.gameState.cakes.length - 1;
 };
 
 //Cake was a rather ok, jos ei oo mitään sanottavaa
@@ -275,9 +274,9 @@ TargetingView.prototype.space = function() {
             }
         }
         this.deliveries[this.selectedCake] = this.selectedPoint;
-        for (i = this.selectedCake; i > this.selectedCake - 3; --i) {
-            if (this.deliveries[(i + 3) % 3] === undefined) {
-                this.selectedCake = (i + 3) % 3;
+        for (i = this.selectedCake; i > this.selectedCake - this.deliveries.length; --i) {
+            if (this.deliveries[(i + this.deliveries.length) % this.deliveries.length] === undefined) {
+                this.selectedCake = (i + this.deliveries.length) % this.deliveries.length;
                 break;
             }
         }
@@ -287,12 +286,12 @@ TargetingView.prototype.space = function() {
                 ++definedDeliveries;
             }
         }
-        if (definedDeliveries === 3 && this.state !== TargetingView.state.CONFIRM) {
+        if (definedDeliveries === this.deliveries.length && this.state !== TargetingView.state.CONFIRM) {
             this.state = TargetingView.state.CONFIRM;
             this.stateTime = 0;
             this.menuOptions.push('CONFIRM CAKE DELIVERY');
-            this.selectedCake = 3;
-        } else if (definedDeliveries !== 3 && this.state === TargetingView.state.CONFIRM) {
+            this.selectedCake = this.deliveries.length;
+        } else if (definedDeliveries !== this.deliveries.length && this.state === TargetingView.state.CONFIRM) {
             this.state = TargetingView.state.CHOOSE;
             this.stateTime = 0;
             this.menuOptions.splice(this.menuOptions.length - 1, 1);
