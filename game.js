@@ -825,6 +825,8 @@ var webFrame = function() {
 };
 
 var initGame = function() {
+    Audio.audioPath = 'Assets/Sounds/';
+
     var canvasWrap = document.createElement('div');
     canvasWrap.id = 'canvaswrap';
 
