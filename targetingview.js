@@ -1,7 +1,7 @@
 var TargetingView = function(gameState) {
     this.gameState = gameState;
 
-    this.music = new Audio('music_map', true);
+    this.music = new Audio('music_map');
     this.crosshairFx = new Audio('fx_map_crosshair');
 
     this.mapSprite = new Sprite("map.png");
@@ -25,7 +25,7 @@ TargetingView.state = {
 };
 
 TargetingView.prototype.enter = function() {
-    this.music.play();
+    this.music.playSingular(true);
     this.state = TargetingView.state.CHOOSE;
     console.log("Cakes");
     console.log(this.gameState.cakes);
@@ -236,13 +236,13 @@ TargetingView.prototype.leftArrow = function() {
     this.cameraStopped = false;
     this.selectedPoint = (this.selectedPoint + COUNTRIES.length - 1) % COUNTRIES.length;
     this.resetTransition();
-    this.crosshairFx.playClone();
+    this.crosshairFx.play();
 };
 TargetingView.prototype.rightArrow = function() {
     this.cameraStopped = false;
     this.selectedPoint = Math.abs((this.selectedPoint + 1) % COUNTRIES.length);
     this.resetTransition();
-    this.crosshairFx.playClone();
+    this.crosshairFx.play();
 };
 
 TargetingView.prototype.downArrow = function() {

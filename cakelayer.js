@@ -68,7 +68,7 @@ CakeLayer.prototype.draw = function(ctx, x) {
 CakeLayer.prototype.splash = function(x, y) {
     this.splashes.push(new Vec2(x - this.lastDrawX, y - this.y));
     if (this.splashes.length === 3) {
-        CakeView.splashFx.playClone();
+        CakeView.splashFx.play();
     }
     if (this.fillingSpread < 1) {
         this.fillingSpread += 0.02;

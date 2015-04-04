@@ -37,7 +37,7 @@ var NewspaperView = function(gameState) {
         this.papers.push(new Paper(newspaperDiv));
     }
 
-    this.music = new Audio('music_morning', true);
+    this.music = new Audio('music_morning');
     this.date = new Date();
     this.date.setFullYear(2040);
     
@@ -51,7 +51,7 @@ NewspaperView.prototype.draw = function(ctx) {
 };
 
 NewspaperView.prototype.enter = function() {
-    this.music.play();
+    this.music.playSingular(true);
     this.date.setTime(this.date.getTime() + 1000 * 60 * 60 * 24);
     for (var i = 0; i < this.papers.length; ++i) {
         if (i < this.gameState.news.length) {

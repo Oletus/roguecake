@@ -19,7 +19,7 @@ var CakeView = function(gameState) {
     this.spaceGlowSprite = new Sprite('spaceglow.png');
     CakeLayer.loadSprites();
 
-    this.music = new Audio('music_slot_loop', true);
+    this.music = new Audio('music_slot_loop');
     this.slotRollFx = new Audio('fx_slot_roll');
     this.slotButtonFx = new Audio('fx_slot_button');
     CakeView.splashFx = new Audio('fx_splash');
@@ -81,7 +81,7 @@ CakeView.prototype.enter = function() {
     this.nextSound = 1;
 
     this.arrowAnim = 0;
-    this.music.play();
+    this.music.playSingular(true);
 };
 
 CakeView.prototype.exit = function() {
@@ -339,7 +339,7 @@ CakeView.prototype.update = function(deltaTimeMillis) {
         }
         if (this.slotPosition > this.nextSound) {
             this.nextSound += 1;
-            this.slotRollFx.playClone();
+            this.slotRollFx.play();
         }
     }
     if (this.state === CakeView.state.SLOWING) {
@@ -411,7 +411,7 @@ CakeView.prototype.update = function(deltaTimeMillis) {
 CakeView.prototype.space = function() {
     if (this.state === CakeView.state.RANDOM) {
         if (this.stateTime > 300) {
-            this.slotButtonFx.playClone();
+            this.slotButtonFx.play();
             this.changeState(CakeView.state.SLOWING);
             this.nextSlow = Math.ceil(this.slotPosition);
         }
