@@ -1,3 +1,5 @@
+'use strict';
+
 var IntroView = function(gameState) {
     this.gameState = gameState;
 };
@@ -57,7 +59,7 @@ IntroView.prototype.developerSkip = function() {
 
 IntroView.prototype.addAElements = function() {
     var wrap = document.getElementById("canvaswrap");
-    animw = document.createElement("div");
+    var animw = document.createElement("div");
     animw.id = 'animview';
     wrap.appendChild(animw);
 

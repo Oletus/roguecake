@@ -1,3 +1,5 @@
+'use strict';
+
 var CakeView = function(gameState) {
     this.gameState = gameState;
     this.slots = []; // list of FILLINGS indices

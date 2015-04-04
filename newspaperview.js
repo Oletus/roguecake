@@ -1,3 +1,5 @@
+'use strict';
+
 var Paper = function(newspaperDiv) {
     this.dateslot = document.createElement("p");
     this.dateslot.classList.add('dateslot');

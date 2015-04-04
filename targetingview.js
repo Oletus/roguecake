@@ -1,3 +1,5 @@
+'use strict';
+
 var TargetingView = function(gameState) {
     this.gameState = gameState;
 
@@ -306,7 +308,7 @@ function sign(x) {
 TargetingView.prototype.isLocationOccupied = function(location) {
     if (this.deliveries.length == 0) return false;
     var length = this.deliveries.length;
-    for (t = 0; t < length; t++) {
+    for (var t = 0; t < length; t++) {
         if (this.deliveries[t] == location) {
             return true;
         }
@@ -354,8 +356,8 @@ TargetingView.prototype.drawMap = function(ctx) {
     for (var i = 0; i < COUNTRIES.length; i++) {
         ctx.fillStyle = '#fb8';
         if (this.isLocationOccupied(i)) ctx.fillStyle = '#00ff00';
-        px = COUNTRIES[i]["mapLocation"][0];
-        py = COUNTRIES[i]["mapLocation"][1];
+        var px = COUNTRIES[i]["mapLocation"][0];
+        var py = COUNTRIES[i]["mapLocation"][1];
         ctx.save();
         ctx.translate(px, py);
         ctx.fillRect(-5, -5,10,10);
@@ -379,7 +381,8 @@ TargetingView.prototype.drawMap = function(ctx) {
 
 TargetingView.prototype.drawMapRepeated = function(ctx, clamp) {
     //Map & all related scrolling stuff
-    screenY = this.toScreenY(this.positionY + this.mapSprite.height, ctx);
+    var screenY = this.toScreenY(this.positionY + this.mapSprite.height, ctx);
+    var clamp;
     if (screenY < ctx.canvas.height) {
         clamp = (ctx.canvas.height - screenY) / this.scale;
     }
