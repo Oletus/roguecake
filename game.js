@@ -1,5 +1,8 @@
+'use strict';
+
 var mainCanvas;
 var mainCtx;
+var canvasResizer;
 
 var FILLINGS = ['Baby seal',
                 'Bacon',
@@ -608,7 +611,7 @@ var TRIGGERS = [
 
 ];
 
-RANDOM_ARTICLES = [
+var RANDOM_ARTICLES = [
 {
     country: "Southwest Kaunistatud",
     headline: "Dictator Beats Lions",
@@ -789,6 +792,33 @@ var fading = {
 };
 
 var Game = function() {
+    var canvasWrap = document.createElement('div');
+    canvasWrap.id = 'canvaswrap';
+
+    mainCanvas = document.createElement('canvas');
+    mainCtx = mainCanvas.getContext('2d');
+    mainCanvas.width = 960;
+    mainCanvas.height = 540;
+
+    fading.fadeDiv = document.createElement('div');
+    fading.fadeDiv.id = 'fader';
+
+    canvasWrap.appendChild(mainCanvas);
+    canvasWrap.appendChild(fading.fadeDiv);
+
+    canvasResizer = new CanvasResizer({
+        canvas: mainCanvas,
+        wrapperElement: canvasWrap,
+        mode: CanvasResizer.Mode.FIXED_RESOLUTION_INTERPOLATED
+    });
+    
+    var gameState = new GameState();
+    
+    views = [new IntroView(gameState),
+             new NewspaperView(gameState),
+             new CakeView(gameState),
+             new TargetingView(gameState)];
+    views[0].enter();
 };
 
 Game.prototype.update = function(deltaTime) {
@@ -808,6 +838,7 @@ Game.prototype.update = function(deltaTime) {
 };
 
 Game.prototype.render = function() {
+    canvasResizer.render();
     views[viewIdx].draw(mainCtx);
     if (fading.fade < 1.0) {
         fading.fadeDiv.style.opacity = 1 - fading.fade;
@@ -820,29 +851,6 @@ Game.prototype.render = function() {
 
 var initGame = function() {
     Audio.audioPath = 'Assets/Sounds/';
-
-    var canvasWrap = document.createElement('div');
-    canvasWrap.id = 'canvaswrap';
-
-    mainCanvas = document.createElement('canvas');
-    mainCtx = mainCanvas.getContext('2d');
-    mainCanvas.width = 960;
-    mainCanvas.height = 540;
-
-    fading.fadeDiv = document.createElement('div');
-    fading.fadeDiv.id = 'fader';
-
-    canvasWrap.appendChild(mainCanvas);
-    canvasWrap.appendChild(fading.fadeDiv);
-    document.body.appendChild(canvasWrap);
-
-    var gameState = new GameState();
-    views = [new IntroView(gameState),
-             new NewspaperView(gameState),
-             new CakeView(gameState),
-             new TargetingView(gameState)];
-    views[0].enter();
-    this.gameState = gameState;
 
     startMainLoop([new Game()], {updateFPS: FPS});
 

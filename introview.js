@@ -39,6 +39,11 @@ IntroView.prototype.update = function(deltaTimeMillis) {
     return this.exiting;
 };
 
+IntroView.prototype.draw = function() {
+    var elem = document.getElementById("animview");
+    elem.style.transform = 'scale(' + canvasResizer.getScale() + ')';
+};
+
 IntroView.prototype.enterKey = function() {
     console.log("enterKey");
     if (this.readTime > 500 && document.getElementById('company_input').value.trim().length >= 3) {

@@ -48,6 +48,8 @@ var NewspaperView = function(gameState) {
 NewspaperView.prototype = new View();
 
 NewspaperView.prototype.draw = function(ctx) {
+    var elem = document.getElementById("newsviewd");
+    elem.style.transform = 'scale(' + canvasResizer.getScale() + ')';
 };
 
 NewspaperView.prototype.enter = function() {
