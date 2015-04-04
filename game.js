@@ -809,7 +809,7 @@ var Game = function() {
     canvasResizer = new CanvasResizer({
         canvas: mainCanvas,
         wrapperElement: canvasWrap,
-        mode: CanvasResizer.Mode.FIXED_RESOLUTION_INTERPOLATED
+        mode: CanvasResizer.Mode.FIXED_RESOLUTION
     });
     
     var gameState = new GameState();
