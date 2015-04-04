@@ -176,7 +176,7 @@ CakeView.prototype.chooseCake = function(fillingIndex, createEffects) {
 
 CakeView.prototype.logCakes = function() {
     for (var i = 0; i < this.gameState.cakes.length; ++i) {
-        cakeStr = [];
+        var cakeStr = [];
         for (var j = 0; j < this.gameState.cakes[i].fillings.length; ++j) {
             cakeStr.push(this.gameState.cakes[i].fillings[j]);
         }

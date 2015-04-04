@@ -360,7 +360,7 @@ TargetingView.prototype.drawMap = function(ctx) {
         var py = COUNTRIES[i]["mapLocation"][1];
         ctx.save();
         ctx.translate(px, py);
-        ctx.fillRect(-5, -5,10,10);
+        ctx.fillRect(-5, -5, 10, 10);
         ctx.font = "16px digital";
         ctx.textAlign = "left";
         ctx.textBaseline = "hanging";
@@ -398,11 +398,13 @@ TargetingView.prototype.drawMapRepeated = function(ctx, clamp) {
     ctx.scale(scale, scale);
 
     ctx.translate(this.positionX, clamped_y);
+    ctx.save(); // Work around Firefox & IE11 bug
     this.drawMap(ctx);
     ctx.translate(-this.mapSprite.width, 0);
     this.drawMap(ctx);
     ctx.translate(-this.mapSprite.width, 0);
     this.drawMap(ctx);
+    ctx.restore();
 
     ctx.restore();
 };
