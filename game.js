@@ -738,54 +738,6 @@ GameState.prototype.replaceArticleKeywords = function() {
     }
 };
 
-var views;
-var viewIdx = 0;
-
-var leftArrow = function() {
-    views[viewIdx].leftArrow();
-};
-var rightArrow = function() {
-    views[viewIdx].rightArrow();
-};
-var upArrow = function() {
-    views[viewIdx].upArrow();
-};
-var downArrow = function() {
-    views[viewIdx].downArrow();
-};
-var space = function() {
-    views[viewIdx].space();
-};
-var enterKey = function() {
-    views[viewIdx].enterKey();
-};
-
-
-var changeView = function() {
-    views[viewIdx].exit();
-    viewIdx = (viewIdx + 1) % views.length;
-    if (viewIdx === 0) {
-        ++viewIdx;
-    }
-    if (viewIdx == 2) {
-        var stillAlive = 0;
-        for (var i = 0; i < COUNTRIES.length; i++) {
-            if (COUNTRIES[i].life > 0) stillAlive++;
-        }
-        if (stillAlive < 3) {
-            this.gameState.news = [new Article(10, "", "Game Over", "In a shocking turn of events, [company name], the confectionery loved by many, was found guilty of several counts of genocide and was forced to seize all operations. The international crisis management task force is quick to point out that by pressing a button that says “New Game”, one might or might not be able to create a separate universe in which none of this happens and there’s more cakes. Or more mantis shrimps. You never know these days.")]
-            this.gameState.replaceArticleKeywords();
-            viewIdx--; //Back to newspaper view!
-        }
-    }
-    views[viewIdx].enter();
-};
-
-var developerSkip = function() {
-    views[viewIdx].developerSkip();
-    changeView();
-};
-
 var fading = {
     fading: 1,
     fade: 0
@@ -814,21 +766,80 @@ var Game = function() {
     
     var gameState = new GameState();
     
-    views = [new IntroView(gameState),
+    this.views = [new IntroView(gameState),
              new NewspaperView(gameState),
              new CakeView(gameState),
              new TargetingView(gameState)];
-    views[0].enter();
+    this.viewIdx = 0;
+    this.views[0].enter();
+    
+    this.input = new InputMapper(this, 1);
+    
+    this.input.addListener(Gamepad.BUTTONS.LEFT_OR_ANALOG_LEFT, ['left'], this.leftArrow);
+    this.input.addListener(Gamepad.BUTTONS.RIGHT_OR_ANALOG_RIGHT, ['right'], this.rightArrow);
+    this.input.addListener(Gamepad.BUTTONS.DOWN_OR_ANALOG_DOWN, ['down'], this.downArrow);
+    this.input.addListener(Gamepad.BUTTONS.UP_OR_ANALOG_UP, ['up'], this.upArrow);
+    this.input.addListener(Gamepad.BUTTONS.A, ['space'], this.space);
+    this.input.addListener(Gamepad.BUTTONS.START, ['enter'], this.enterKey);
+
+    if (DEV_MODE) {
+        this.input.addListener(Gamepad.BUTTONS.SELECT, ['v'], this.developerSkip);
+    }
+};
+
+Game.prototype.leftArrow = function() {
+    this.views[this.viewIdx].leftArrow();
+};
+Game.prototype.rightArrow = function() {
+    this.views[this.viewIdx].rightArrow();
+};
+Game.prototype.upArrow = function() {
+    this.views[this.viewIdx].upArrow();
+};
+Game.prototype.downArrow = function() {
+    this.views[this.viewIdx].downArrow();
+};
+Game.prototype.space = function() {
+    this.views[this.viewIdx].space();
+};
+Game.prototype.enterKey = function() {
+    this.views[this.viewIdx].enterKey();
+};
+
+Game.prototype.changeView = function() {
+    this.views[this.viewIdx].exit();
+    this.viewIdx = (this.viewIdx + 1) % this.views.length;
+    if (this.viewIdx === 0) {
+        ++this.viewIdx;
+    }
+    if (this.viewIdx == 2) {
+        var stillAlive = 0;
+        for (var i = 0; i < COUNTRIES.length; i++) {
+            if (COUNTRIES[i].life > 0) stillAlive++;
+        }
+        if (stillAlive < 3) {
+            this.gameState.news = [new Article(10, "", "Game Over", "In a shocking turn of events, [company name], the confectionery loved by many, was found guilty of several counts of genocide and was forced to seize all operations. The international crisis management task force is quick to point out that by pressing a button that says “New Game”, one might or might not be able to create a separate universe in which none of this happens and there’s more cakes. Or more mantis shrimps. You never know these days.")]
+            this.gameState.replaceArticleKeywords();
+            this.viewIdx--; //Back to newspaper view!
+        }
+    }
+    this.views[this.viewIdx].enter();
+};
+
+Game.prototype.developerSkip = function() {
+    this.views[this.viewIdx].developerSkip();
+    this.changeView();
 };
 
 Game.prototype.update = function(deltaTime) {
-    if (views[viewIdx].update(deltaTime * 1000) && fading.fading >= 0) {
+    this.input.update();
+    if (this.views[this.viewIdx].update(deltaTime * 1000) && fading.fading >= 0) {
         fading.fading = -1;
     }
     fading.fade += fading.fading * (2 / FPS);
     if (fading.fade < 0) {
         fading.fade = 0;
-        changeView();
+        this.changeView();
         fading.fading = 1;
     }
     if (fading.fade > 1) {
@@ -839,7 +850,7 @@ Game.prototype.update = function(deltaTime) {
 
 Game.prototype.render = function() {
     canvasResizer.render();
-    views[viewIdx].draw(mainCtx);
+    this.views[this.viewIdx].draw(mainCtx);
     if (fading.fade < 1.0) {
         fading.fadeDiv.style.opacity = 1 - fading.fade;
         fading.fadeDiv.style.display = 'block';
@@ -853,15 +864,4 @@ var initGame = function() {
     Audio.audioPath = 'Assets/Sounds/';
 
     startMainLoop([new Game()], {updateFPS: FPS});
-
-    Mousetrap.bindGlobal('left', leftArrow);
-    Mousetrap.bindGlobal('right', rightArrow);
-    Mousetrap.bindGlobal('down', downArrow);
-    Mousetrap.bindGlobal('up', upArrow);
-    Mousetrap.bindGlobal('space', space);
-    Mousetrap.bindGlobal('enter', enterKey);
-
-    if (DEV_MODE) {
-        Mousetrap.bindGlobal('v', developerSkip);
-    }
 };
