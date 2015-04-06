@@ -781,6 +781,11 @@ var Game = function() {
     this.input.addListener(Gamepad.BUTTONS.UP_OR_ANALOG_UP, ['up'], this.upArrow);
     this.input.addListener(Gamepad.BUTTONS.A, ['space'], this.space);
     this.input.addListener(Gamepad.BUTTONS.START, ['enter'], this.enterKey);
+    
+    var that = this;
+    window.addEventListener('touchstart', function(ev) {
+        that.touchListener(ev);
+    });
 
     if (DEV_MODE) {
         this.input.addListener(Gamepad.BUTTONS.SELECT, ['v'], this.developerSkip);
@@ -804,6 +809,19 @@ Game.prototype.space = function() {
 };
 Game.prototype.enterKey = function() {
     this.views[this.viewIdx].enterKey();
+};
+
+Game.prototype.touchListener = function(ev) {
+    var pos = canvasResizer.getCanvasPosition(event);
+    if (pos.x < mainCanvas.width * 0.4) {
+        this.leftArrow();
+    }
+    else if (pos.x > mainCanvas.width * 0.6) {
+        this.rightArrow();
+    }
+    else {
+        this.space();
+    }
 };
 
 Game.prototype.changeView = function() {
