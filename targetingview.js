@@ -363,7 +363,7 @@ TargetingView.prototype.drawMap = function(ctx) {
         ctx.fillRect(-5, -5, 10, 10);
         ctx.font = "16px digital";
         ctx.textAlign = "left";
-        ctx.textBaseline = "hanging";
+        ctx.textBaseline = "top";
         ctx.fillText(COUNTRIES[i]["name"], 22, 2);
         for (var j = 0; j < COUNTRIES[i].life; ++j) {
             this.heartSprite.drawRotatedNonUniform(ctx, -30 - 18 * j, 11, 0, 0.6, 0.6);
@@ -509,14 +509,14 @@ TargetingView.prototype.draw = function(ctx) {
     for (var i = 0; i < this.menuOptions.length; ++i) {
         ctx.font = '22px digital';
         ctx.textAlign = 'left';
-        ctx.textBaseline = "bottom";
+        ctx.textBaseline = "top";
         if (i == this.selectedCake) ctx.fillStyle = "#ff0"; else ctx.fillStyle = "#0ff";
         var text = this.menuOptions[i];
         var x = 30;
-        var y = ctx.canvas.height - 25 * i - 20;
+        var y = ctx.canvas.height - 25 * i - 48;
         ctx.fillText(text, x, y);
         if (this.deliveries[i] !== undefined) {
-            strikeThrough(ctx, text, x, y - 11, ctx.fillStyle, 2);
+            strikeThrough(ctx, text, x, y + 11, ctx.fillStyle, 2);
         }
     }
 };
